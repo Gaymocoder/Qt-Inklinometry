@@ -11,15 +11,15 @@ INCLUDEPATH += $${PWD}/include/
     
 HEADERS += \
     include/Inklin/Core/Calculator.h \
-    include/Inklin/Gui/FileSelectorWidget.h \
-    include/Inklin/Gui/FileTypeButton.h \
-    include/Inklin/Gui/MainWindowWidget.h \
-    include/Inklin/Gui/MainWindow.h
+    # include/Inklin/Gui/FileSelectorWidget.h \
+    # include/Inklin/Gui/FileTypeButton.h \
+    # include/Inklin/Gui/MainWindowWidget.h \
+    # include/Inklin/Gui/MainWindow.h
 
 SOURCES += \
     src/Inklin/Core/Calculator.cpp \
-    src/Inklin/Gui/FileSelectorWidget.cpp \
-    src/Inklin/Gui/FileTypeButton.cpp \
-    src/Inklin/Gui/MainWindowWidget.cpp \
-    src/Inklin/Gui/MainWindow.cpp \
+    # src/Inklin/Gui/FileSelectorWidget.cpp \
+    # src/Inklin/Gui/FileTypeButton.cpp \
+    # src/Inklin/Gui/MainWindowWidget.cpp \
+    # src/Inklin/Gui/MainWindow.cpp \
     src/Inklin/main.cpp

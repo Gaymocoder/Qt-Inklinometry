@@ -1,4 +1,4 @@
-#include "Calculator.h"
+#include "Inklin/Core/Calculator.h"
 
 #include <stdexcept>
 
@@ -12,7 +12,7 @@ Calculator::Calculator(FS::path& file)
 
 void Calculator::onFileChange(FS::path& newFile)
 {
-    this->file = file;
+    this->file = newFile;
 }
 
 void Calculator::onFileTypeChange(Inklin::SourceDataType newFileType)
@@ -20,17 +20,17 @@ void Calculator::onFileTypeChange(Inklin::SourceDataType newFileType)
     this->fileType = newFileType;
 }
 
-DataSet Calculator::getResult()
+DataSet Calculator::getResult() const
 {
     return this->result;
 }
 
-FS::path Calculator::getFilePath()
+FS::path Calculator::getFilePath() const
 {
     return this->file;
 }
 
-FS::path Calculator::getFileType()
+Inklin::SourceDataType Calculator::getFileType() const
 {
     return this->fileType;
 }
