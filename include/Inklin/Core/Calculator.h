@@ -51,9 +51,9 @@ namespace Inklin
                 static void fromAzimuth(DataSet* data);
                 static void fromAbsolute(DataSet* data);
                 
-                DataSet getResult();
-                FS::path getFilePath();
-                SourceDataType getFileType();
+                DataSet getResult() const;
+                FS::path getFilePath() const;
+                SourceDataType getFileType() const;
             
             signals:
                 void fireCalculationFinished();
