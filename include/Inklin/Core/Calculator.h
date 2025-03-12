@@ -9,7 +9,7 @@ namespace FS = std::filesystem;
 
 namespace Inklin
 {
-    enum DataFileType
+    enum class SourceDataType
     {
         ABSOLUTE = 0,
         DELTA    = 1,
@@ -19,25 +19,36 @@ namespace Inklin
     
     namespace Core
     {
+        struct DataSet
+        {
+            double Value1;
+            double Value2;
+            double Value3;
+        };
+        
         class Calculator : public QObject
         {
             Q_OBJECT;
             
             private:
                 FS::path file;
-                DataFileType fileType;
+                SourceDataType fileType = SourceDataType::NONE;
                 
                 void autoIdentifyFileType();
                 
             public:
                 Calculator(FS::path& file);
+                
+                static void fromDelta(DataSet* data);
+                static void fromAzimuth(DataSet* data);
+                static void fromAbsolute(DataSet* data);
             
             signals:
                 void fireCalculationFinished();
                 
             private slots:
                 void onFileChange(FS::path& newFile);
-                void onFileTypeChange(DataFileType newFileType);
+                void onFileTypeChange(SourceDataType newFileType);
                 void onCalculateRequest();
         };
     }
