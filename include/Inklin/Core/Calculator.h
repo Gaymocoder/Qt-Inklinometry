@@ -11,7 +11,7 @@ namespace FS = std::filesystem;
 
 namespace Inklin
 {
-    enum class SourceDataType : uint8_t
+    enum SourceDataType
     {
         ABSOLUTE = 0,
         DELTA    = 1,
@@ -34,16 +34,12 @@ namespace Inklin
             
             private:
                 FS::path file;
-                DataSet result;
                 SourceDataType fileType;
+                void (*calculateDataSet[3])(DataSet*);
                 
                 void autoIdentifyFileType();
                 
-                void startCalculatingFile();
-                
-                void calculateDeltaFile();
-                void calculateAzimuthFile();
-                void calculateAbsoluteFile();
+                void calculateFile();
                 
             public:
                 Calculator(FS::path& file);
@@ -52,7 +48,6 @@ namespace Inklin
                 static void fromAzimuth(DataSet* data);
                 static void fromAbsolute(DataSet* data);
                 
-                DataSet getResult() const;
                 FS::path getFilePath() const;
                 SourceDataType getFileType() const;
             

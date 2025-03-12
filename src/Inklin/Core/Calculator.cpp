@@ -1,14 +1,20 @@
 #include "Inklin/Core/Calculator.h"
 
 #include <iomanip>
+#include <fstream>
 #include <stdexcept>
 
+using Inklin::SourceDataType;
 using namespace Inklin::Core;
 
 Calculator::Calculator(FS::path& file)
 {
     this->file = file;
-    this->fileType = Inklin::SourceDataType::NONE;
+    this->fileType = NONE;
+    
+    this->calculateDataSet[DELTA] = Calculator::fromDelta;
+    this->calculateDataSet[AZIMUTH] = Calculator::fromAzimuth;
+    this->calculateDataSet[ABSOLUTE] = Calculator::fromAbsolute;
 }
 
 void Calculator::onFileChange(FS::path& newFile)
@@ -19,11 +25,6 @@ void Calculator::onFileChange(FS::path& newFile)
 void Calculator::onFileTypeChange(Inklin::SourceDataType newFileType)
 {
     this->fileType = newFileType;
-}
-
-DataSet Calculator::getResult() const
-{
-    return this->result;
 }
 
 FS::path Calculator::getFilePath() const
@@ -38,31 +39,30 @@ Inklin::SourceDataType Calculator::getFileType() const
 
 void Calculator::onCalculateRequest()
 {
-    this->startCalculatingFile();
+    this->calculateFile();
 }
 
-void Calculator::startCalculatingFile()
+void Calculator::calculateFile()
 {
-    switch (this->fileType)
+    DataSet dataSetBuf;
+    std::string strbuf;
+    
+    std::ifstream absoluteFile(this->file.string());
+    if (!absoluteFile)
+        throw std::ios_base::failure("Calculator::calculateAbsoluteFile(): Failed to open the file");
+    
+    std::getline(absoluteFile, strbuf);
+    while (std::getline(absoluteFile, strbuf))
     {
-        case SourceDataType::ABSOLUTE:
-            this->calculateAbsoluteFile();
-            break;
-            
-        case SourceDataType::AZIMUTH:
-            this->calculateAzimuthFile();
-            break;
-            
-        case SourceDataType::DELTA:
-            this->calculateDeltaFile();
-            break;
-            
-        default:
-            throw std::invalid_argument("Calculator::startCalculatingFile(): Calculator::fileType cannot be NONE");
+        std::stringstream ssbuf(strbuf);
+        ssbuf >> dataSetBuf;
+        
+        this->calculateDataSet[this->fileType](&dataSetBuf);
+        std::cout << dataSetBuf << std::endl;
     }
 }
 
-std::istream& operator>>(std::istream& in, DataSet& ds)
+std::istream& Inklin::Core::operator>>(std::istream& in, DataSet& ds)
 {
     in >> ds.Value1;
     in >> ds.Value2;
@@ -71,12 +71,11 @@ std::istream& operator>>(std::istream& in, DataSet& ds)
     return in;
 }
 
-std::ostream& operator<<(std::ostream& out, const DataSet& ds)
+std::ostream& Inklin::Core::operator<<(std::ostream& out, const DataSet& ds)
 {
     out << std::setw(15) << std::left << std::fixed << std::setprecision(12) << ds.Value1
         << std::setw(15) << std::left << std::fixed << std::setprecision(12) << ds.Value2
-        << std::setw(15) << std::left << std::fixed << std::setprecision(12) << ds.Value3
-        << std::endl;
+        << std::setw(15) << std::left << std::fixed << std::setprecision(12) << ds.Value3;
     
     return out;
 }
