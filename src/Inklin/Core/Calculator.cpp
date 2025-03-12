@@ -1,5 +1,7 @@
 #include "Calculator.h"
 
+#include <stdexcept>
+
 using namespace Inklin::Core;
 
 Calculator::Calculator(FS::path& file)
@@ -31,4 +33,30 @@ FS::path Calculator::getFilePath()
 FS::path Calculator::getFileType()
 {
     return this->fileType;
+}
+
+void Calculator::onCalculateRequest()
+{
+    this->startCalculatingFile();
+}
+
+void Calculator::startCalculatingFile()
+{
+    switch (this->fileType)
+    {
+        case SourceDataType::ABSOLUTE:
+            this->calculateAbsoluteFile();
+            break;
+            
+        case SourceDataType::AZIMUTH:
+            this->calculateAzimuthFile();
+            break;
+            
+        case SourceDataType::DELTA:
+            this->calculateDeltaFile();
+            break;
+            
+        default:
+            throw std::invalid_argument("Calculator::startCalculatingFile(): Calculator::fileType cannot be NONE");
+    }
 }
