@@ -2,6 +2,7 @@
 #define __INKLIN_CORE_CALCULATOR_H__
 
 #include <cstdint>
+#include <iostream>
 #include <filesystem>
 
 #include <QWidget>
@@ -63,6 +64,9 @@ namespace Inklin
                 void onFileTypeChange(SourceDataType newFileType);
                 void onCalculateRequest();
         };
+        
+        std::istream& operator>>(std::istream& in, DataSet& ds);
+        std::ostream& operator<<(std::ostream& out, const DataSet& ds);
     }
 }
 
