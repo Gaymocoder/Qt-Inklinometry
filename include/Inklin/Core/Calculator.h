@@ -14,6 +14,7 @@ namespace Inklin
         ABSOLUTE = 0,
         DELTA    = 1,
         AZIMUTH  = 2,
+        NONE     = 3,
     };
     
     namespace Core
@@ -26,8 +27,10 @@ namespace Inklin
                 FS::path file;
                 DataFileType fileType;
                 
+                void autoIdentifyFileType();
+                
             public:
-                explicit Calculator(QWidget* parent = nullptr);
+                Calculator(FS::path& file);
             
             signals:
                 void fireCalculationFinished();
