@@ -28,17 +28,21 @@ namespace Inklin
                 static std::string getStrKey(std::string& line) const;
                 static std::string getStrValue(std::string& line) const;
                 
+                
             protected:
                 virtual void setDefault();
                 
+                template <typename ValueType>
+                void deleteValue(ConfigKeys key);
+                
             public:
                 Config(const FS::path& configPath);
+            
+                template <typename ValueType>
+                ValueType getValue(ConfigKeys key) const;
                 
                 template <typename ValueType>
                 void setValue(ConfigKeys key, ValueType value);
-            
-                template <typename ValueType>
-                ValueType getValue(ConfigKeys) const;
                 
                 virtual void save() const;
                 virtual void load();
