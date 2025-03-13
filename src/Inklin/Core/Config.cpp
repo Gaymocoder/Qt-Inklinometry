@@ -97,3 +97,12 @@ void Config::load()
     configFile.close();
 }
 
+void Config::save() const
+{
+    std::ofstream configFile(this->configFilePath.string());
+    
+    configFile << Config::pairToStr(ConfigKeys::STARTPOS, &(this->startPosition)) << std::endl;
+    
+    configFile.close();
+}
+
