@@ -47,6 +47,33 @@ std::string Config::pairToStr(ConfigKeys key, const void* value_ptr)
     return sspair.str();
 }
 
+void Config::setValue(ConfigKeys key, const std::string& value)
+{
+    std::stringstream ssvalue(value);
+    switch (key)
+    {
+        case ConfigKeys::STARTPOS:
+            ssvalue >> this->startPosition;
+            return;
+            
+        default:
+            throw std::invalid_argument("Config::setValue: Invalid key");
+    }
+}
+
+void Config::setDefaultValue(ConfigKeys key)
+{
+    switch (key)
+    {
+        case ConfigKeys::STARTPOS:
+            this->startPosition = {0, 0, 0};
+            return;
+            
+        default:
+            throw std::invalid_argument("Config::setDefaultValue: Invalid key");
+    }
+}
+
 void Config::load()
 {
     std::string lineBuf;
