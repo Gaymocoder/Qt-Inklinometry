@@ -57,3 +57,25 @@ void Config::setDefaultValue(uint16_t key)
     
     this->config[key] = nullptr;
 }
+
+template <typename ValueType>
+ValueType Config::getValue(uint16_t key, ValueType* ptr)
+{
+    ValueType** valuePtr = &(this->config[key]);
+    if (!(*valuePtr))
+        this->setDefaultValue(key);
+        
+    if (ptr)
+        *ptr = **valuePtr;
+        
+    return **valuePtr;
+}
+
+template <typename ValueType>
+void Config::setValue(uint16_t key, ValueType value)
+{
+    if (!this->config[key])
+        this->config[key] = new ValueType(value);
+    else
+        *((ValueType*) (this->config[key])) = value;
+}
