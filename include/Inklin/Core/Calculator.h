@@ -35,14 +35,14 @@ namespace Inklin
             private:
                 FS::path file;
                 SourceDataType fileType;
+                
                 void (*calculateDataSet[3])(DataSet*);
                 
                 void autoIdentifyFileType();
-                
-                void calculateFile();
+                void calculateFile() const;
                 
             public:
-                Calculator(FS::path& file);
+                Calculator(const FS::path& filePath, const FS::path& configFilePath = "./config.ini");
                 
                 static void fromDelta(DataSet* data);
                 static void fromAzimuth(DataSet* data);
@@ -54,10 +54,10 @@ namespace Inklin
             signals:
                 void fireCalculationFinished();
                 
-            private slots:
-                void onFileChange(FS::path& newFile);
-                void onFileTypeChange(SourceDataType newFileType);
-                void onCalculateRequest();
+            protected slots:
+                virtual void onFileChange(FS::path& newFile);
+                virtual void onFileTypeChange(SourceDataType newFileType);
+                virtual void onCalculateRequest() const;
         };
         
         std::istream& operator>>(std::istream& in, DataSet& ds);
@@ -66,4 +66,3 @@ namespace Inklin
 }
 
 #endif
-

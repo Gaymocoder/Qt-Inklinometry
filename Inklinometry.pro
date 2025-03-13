@@ -10,6 +10,7 @@ DESTDIR = $${PWD}/bin/
 INCLUDEPATH += $${PWD}/include/
     
 HEADERS += \
+    include/Inklin/Core/Config.h \
     include/Inklin/Core/Calculator.h \
     # include/Inklin/Gui/FileSelectorWidget.h \
     # include/Inklin/Gui/FileTypeButton.h \
@@ -17,6 +18,7 @@ HEADERS += \
     # include/Inklin/Gui/MainWindow.h
 
 SOURCES += \
+    src/Inklin/Core/Config.cpp \
     src/Inklin/Core/Calculator.cpp \
     # src/Inklin/Gui/FileSelectorWidget.cpp \
     # src/Inklin/Gui/FileTypeButton.cpp \

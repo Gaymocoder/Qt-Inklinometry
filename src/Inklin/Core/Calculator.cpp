@@ -7,9 +7,9 @@
 using Inklin::SourceDataType;
 using namespace Inklin::Core;
 
-Calculator::Calculator(FS::path& file)
+Calculator::Calculator(const FS::path& filePath, const FS::path& configFilePath)
 {
-    this->file = file;
+    this->file = filePath;
     this->fileType = NONE;
     
     this->calculateDataSet[DELTA] = Calculator::fromDelta;
@@ -37,12 +37,12 @@ Inklin::SourceDataType Calculator::getFileType() const
     return this->fileType;
 }
 
-void Calculator::onCalculateRequest()
+void Calculator::onCalculateRequest() const
 {
     this->calculateFile();
 }
 
-void Calculator::calculateFile()
+void Calculator::calculateFile() const
 {
     DataSet dataSetBuf;
     std::string strbuf;
