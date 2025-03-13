@@ -27,6 +27,7 @@ namespace Inklin
             protected:
                 static std::string getStrKey(const std::string& line);
                 static std::string getStrValue(const std::string& line);
+                static uint16_t fromStrKey(const std::string& line);
                 
                 virtual void deleteValue(uint16_t key);
                 virtual void setDefaultValue(uint16_t key);
@@ -37,7 +38,7 @@ namespace Inklin
                 void setDefault();
             
                 template <typename ValueType>
-                ValueType getValue(uint16_t key, ValueType* ptr);
+                ValueType& getValue(uint16_t key, ValueType* ptr);
                 
                 template <typename ValueType>
                 void setValue(uint16_t key, ValueType value);

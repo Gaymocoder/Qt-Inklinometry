@@ -4,6 +4,8 @@
 #include <fstream>
 #include <stdexcept>
 
+#define 
+
 using Inklin::SourceDataType;
 using namespace Inklin::Core;
 
@@ -42,7 +44,7 @@ void Config::deleteValue(uint16_t key)
 
 void Config::setDefaultValue(uint16_t key)
 {
-    if (!this->config[key])
+    if (this->config[key])
         this->deleteValue(key);
         
     switch (key)
@@ -59,7 +61,7 @@ void Config::setDefaultValue(uint16_t key)
 }
 
 template <typename ValueType>
-ValueType Config::getValue(uint16_t key, ValueType* ptr)
+ValueType& Config::getValue(uint16_t key, ValueType* ptr)
 {
     ValueType** valuePtr = &(this->config[key]);
     if (!(*valuePtr))
@@ -72,12 +74,22 @@ ValueType Config::getValue(uint16_t key, ValueType* ptr)
 }
 
 template <typename ValueType>
-void Config::setValue(uint16_t key, ValueType value)
+void Config::setValue(uint16_t key, ValueType* value)
 {
     if (!this->config[key])
         this->config[key] = new ValueType(value);
     else
         *((ValueType*) (this->config[key])) = value;
+}
+
+void Config::setValue(uint16_t key, void* value)
+{
+    switch (key)
+    {
+        case STARTPOS:
+            *((DataSet*) this->config[key]) = *((DataSet*) value);
+            break;
+    }
 }
 
 std::string Config::getStrKey(const std::string& line)
@@ -88,4 +100,30 @@ std::string Config::getStrKey(const std::string& line)
 std::string Config::getStrValue(const std::string& line)
 {
     return line.substr(line.find("=") + 1);
+}
+
+uint16_t Config::fromStrKey(const std::string& key)
+{
+    switch (key)
+    {
+        case "STARTPOS":
+            return STARTPOS;
+            
+        default:
+            throw std::invalid_argument("Config::fromStrKey(const std::string&): the config key does not exist");
+    }
+}
+
+void Config::load() const
+{
+    std::string lineBuf;
+    std::ifstream configFile(this->configFilePath.string());
+    while (std::getline(configFile, lineBuf))
+    {
+        ConfigKeys key = Config::fromStrKey(Config::getStrKey(lineBuf));
+        std::string strValue = Config::getStrValue(lineBuf);
+        
+        std::stringstream ssbuf(strValue);
+        ssbuf >> *(this->config[key]);
+    }
 }
