@@ -1,3 +1,4 @@
+#include "Inklin/Core/Config.h"
 #include "Inklin/Core/Calculator.h"
 
 #include <iomanip>
@@ -11,6 +12,7 @@ Calculator::Calculator(const FS::path& filePath, const FS::path& configFilePath)
 {
     this->file = filePath;
     this->fileType = NONE;
+    this->appConfig = Config(configFilePath);
     
     this->calculateDataSet[DELTA] = Calculator::fromDelta;
     this->calculateDataSet[AZIMUTH] = Calculator::fromAzimuth;

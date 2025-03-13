@@ -34,6 +34,7 @@ namespace Inklin
             
             private:
                 FS::path file;
+                Config appConfig;
                 SourceDataType fileType;
                 
                 void (*calculateDataSet[3])(DataSet*);
