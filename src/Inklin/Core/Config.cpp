@@ -21,7 +21,8 @@ Config::~Config()
 
 void Config::setDefault()
 {
-    this->config[STARTPOS] = new DataSet {-1, -1, -1};
+    for(uint16_t key = 0; key < Inklin::Core::configKeysAmount; ++key)
+        this->setDefaultValue(key);
 }
 
 void Config::deleteValue(uint16_t key)
@@ -33,7 +34,25 @@ void Config::deleteValue(uint16_t key)
             break;
             
         default:
-            throw std::invalid_argument("Config::deleteValue(ConfigKeys): the config key does not exist");
+            throw std::invalid_argument("Config::deleteValue(uint16_t): the config key does not exist");
+    }
+    
+    this->config[key] = nullptr;
+}
+
+void Config::setDefaultValue(uint16_t key)
+{
+    if (!this->config[key])
+        this->deleteValue(key);
+        
+    switch (key)
+    {
+        case STARTPOS:
+            this->config[key] = new DataSet {0, 0, 0};
+            break;
+            
+        default:
+            throw std::invalid_argument("Config::setDefaultValue(uint16_t): the config key does not exist");
     }
     
     this->config[key] = nullptr;

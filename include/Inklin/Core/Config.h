@@ -30,14 +30,16 @@ namespace Inklin
                 
                 
             protected:
-                virtual void setDefault();
                 virtual void deleteValue(uint16_t key);
+                virtual void setDefaultValue(uint16_t key);
                 
             public:
                 Config(const FS::path& configPath);
+                
+                void setDefault();
             
                 template <typename ValueType>
-                ValueType getValue(uint16_t key) const;
+                ValueType getValue(uint16_t key, ValueType* ptr);
                 
                 template <typename ValueType>
                 void setValue(uint16_t key, ValueType value);
