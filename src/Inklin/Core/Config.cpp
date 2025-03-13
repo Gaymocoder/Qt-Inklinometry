@@ -1,6 +1,8 @@
 #include "Inklin/Core/Config.h"
+#include "Inklin/Core/Calculator.h"
 
 #include <fstream>
+#include <stdexcept>
 
 using Inklin::SourceDataType;
 using namespace Inklin::Core;
@@ -17,4 +19,22 @@ Config::~Config()
         this->deleteValue(key);
 }
 
+void Config::setDefault()
+{
+    this->config[STARTPOS] = new DataSet {-1, -1, -1};
+}
 
+void Config::deleteValue(uint16_t key)
+{
+    switch (key)
+    {
+        case STARTPOS:
+            delete (DataSet*) this->config[key];
+            break;
+            
+        default:
+            throw std::invalid_argument("Config::deleteValue(ConfigKeys): the config key does not exist");
+    }
+    
+    this->config[key] = nullptr;
+}

@@ -2,7 +2,7 @@
 #define __INKLIN_CORE_CONFIG_H__
 
 #include <map>
-#include <ctypes>
+#include <cstdint>
 #include <filesystem>
 
 namespace FS = std::filesystem;
@@ -25,30 +25,28 @@ namespace Inklin
                 
                 void* config[configKeysAmount];
                 
-                static std::string getStrKey(std::string& line) const;
-                static std::string getStrValue(std::string& line) const;
+                static std::string getStrKey(std::string& line);
+                static std::string getStrValue(std::string& line);
                 
                 
             protected:
                 virtual void setDefault();
-                
-                template <typename ValueType>
-                void deleteValue(ConfigKeys key);
+                virtual void deleteValue(uint16_t key);
                 
             public:
                 Config(const FS::path& configPath);
             
                 template <typename ValueType>
-                ValueType getValue(ConfigKeys key) const;
+                ValueType getValue(uint16_t key) const;
                 
                 template <typename ValueType>
-                void setValue(ConfigKeys key, ValueType value);
+                void setValue(uint16_t key, ValueType value);
                 
                 virtual void save() const;
                 virtual void load();
                 
-                virtual ~Cofing();
-        }
+                virtual ~Config();
+        };
     }
 }
 
