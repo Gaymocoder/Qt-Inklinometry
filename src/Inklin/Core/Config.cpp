@@ -79,3 +79,13 @@ void Config::setValue(uint16_t key, ValueType value)
     else
         *((ValueType*) (this->config[key])) = value;
 }
+
+std::string Config::getStrKey(const std::string& line)
+{
+    return line.substr(0, line.find("="));
+}
+
+std::string Config::getStrValue(const std::string& line)
+{
+    return line.substr(line.find("=") + 1);
+}

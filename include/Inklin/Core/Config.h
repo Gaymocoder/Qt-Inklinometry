@@ -22,14 +22,12 @@ namespace Inklin
         {
             private:
                 const FS::path configFilePath;
-                
                 void* config[configKeysAmount];
                 
-                static std::string getStrKey(std::string& line);
-                static std::string getStrValue(std::string& line);
-                
-                
             protected:
+                static std::string getStrKey(const std::string& line);
+                static std::string getStrValue(const std::string& line);
+                
                 virtual void deleteValue(uint16_t key);
                 virtual void setDefaultValue(uint16_t key);
                 
