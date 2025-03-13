@@ -23,13 +23,16 @@ std::string Config::getStrValue(const std::string& line)
     return line.substr(line.find("=") + 1);
 }
 
-void Config::load() const
+void Config::load()
 {
     std::string lineBuf;
     std::ifstream configFile(this->configFilePath.string());
     while (std::getline(configFile, lineBuf))
     {
-        ConfigKeys key = Config::fromStrKey(Config::getStrKey(lineBuf));
-        std::string strValue = Config::getStrValue(lineBuf);
+        std::string key = Config::getStrKey(lineBuf);
+        std::string Value = Config::getStrValue(lineBuf);
+        this->setValue(key, value);
     }
+    configFile.close();
 }
+
