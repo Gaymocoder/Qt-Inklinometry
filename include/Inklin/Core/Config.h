@@ -1,7 +1,7 @@
 #ifndef __INKLIN_CORE_CONFIG_H__
 #define __INKLIN_CORE_CONFIG_H__
 
-#include "Inklin/Core/Calculator.h"
+#include "Inklin/SimpleTypes.h"
 
 #include <map>
 #include <cstdint>
@@ -13,11 +13,6 @@ namespace Inklin
 {
     namespace Core
     {
-        enum class ConfigKeys
-        {
-            STARTPOS,
-        };
-        
         class Config
         {
             private:

@@ -1,4 +1,3 @@
-#include "Inklin/Core/Config.h"
 #include "Inklin/Core/Calculator.h"
 
 #include <iomanip>
@@ -8,11 +7,10 @@
 using Inklin::SourceDataType;
 using namespace Inklin::Core;
 
-Calculator::Calculator(const FS::path& filePath, const FS::path& configFilePath)
+Calculator::Calculator(const FS::path& filePath, const FS::path& configFilePath) : appConfig(configFilePath)
 {
     this->file = filePath;
     this->fileType = NONE;
-    this->appConfig = Config(configFilePath);
     
     this->calculateDataSet[DELTA] = Calculator::fromDelta;
     this->calculateDataSet[AZIMUTH] = Calculator::fromAzimuth;
@@ -46,8 +44,9 @@ void Calculator::onCalculateRequest() const
 
 void Calculator::calculateFile() const
 {
-    DataSet dataSetBuf;
     std::string strbuf;
+    DataSet currDataBuf;
+    DataSet prevDataBuf = this->appConfig.startPosition;
     
     std::ifstream absoluteFile(this->file.string());
     if (!absoluteFile)
@@ -57,10 +56,10 @@ void Calculator::calculateFile() const
     while (std::getline(absoluteFile, strbuf))
     {
         std::stringstream ssbuf(strbuf);
-        ssbuf >> dataSetBuf;
+        ssbuf >> currDataBuf;
         
-        this->calculateDataSet[this->fileType](&dataSetBuf);
-        std::cout << dataSetBuf << std::endl;
+        this->calculateDataSet[this->fileType](&prevDataBuf, &currDataBuf);
+        std::cout << currDataBuf << std::endl;
     }
 }
 
