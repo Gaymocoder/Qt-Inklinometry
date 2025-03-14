@@ -42,6 +42,25 @@ void Calculator::onCalculateRequest() const
     this->calculateFile();
 }
 
+void Calculator::fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf)
+{
+    double& MD = currDataBuf->Value1;
+    double& X  = currDataBuf->Value2;
+    double& Y  = currDataBuf->Value3;
+    
+    double& prMD  = prevDataBuf->Value2;
+    double& prX   = prevDataBuf->Value2;
+    double& prY   = prevDataBuf->Value2;
+    
+    double A = pow(X - prX, 2);
+    double B = pow(Y - prY, 2);
+    double C = pow(MD - prMD, 2);
+    
+    *prevDataBuf = *currDataBuf;
+    
+    *currDataBuf = {X, Y, sqrt(C - (A + B))};
+}
+
 void Calculator::calculateFile() const
 {
     std::string strbuf;
