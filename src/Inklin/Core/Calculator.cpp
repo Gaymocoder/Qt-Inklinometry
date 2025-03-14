@@ -61,6 +61,14 @@ void Calculator::fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf)
     *currDataBuf = {X, Y, sqrt(C - (A + B))};
 }
 
+void Calculator::fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf)
+{
+}
+
+void Calculator::fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf)
+{
+}
+
 void Calculator::calculateFile() const
 {
     std::string strbuf;

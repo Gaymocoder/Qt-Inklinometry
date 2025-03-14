@@ -1,3 +1,5 @@
+include(GTest.pri)
+
 TEMPLATE = app
 QT += widgets
 
