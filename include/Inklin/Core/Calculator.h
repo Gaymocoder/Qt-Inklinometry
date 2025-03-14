@@ -7,7 +7,7 @@
 #include <iostream>
 #include <filesystem>
 
-#include <QWidget>
+#include <QObject>
 
 namespace FS = std::filesystem;
 

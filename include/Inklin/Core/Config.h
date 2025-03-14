@@ -9,6 +9,9 @@
 
 namespace FS = std::filesystem;
 
+template <typename InType1, typename InType2, typename OutType>
+struct ConfigTestClass;
+
 namespace Inklin
 {
     namespace Core
@@ -39,6 +42,11 @@ namespace Inklin
                 
                 virtual void save() const;
                 virtual void load();
+                
+                virtual ~Config() = default;
+                
+            template <typename InType1, typename InType2, typename OutType>
+            friend struct ::ConfigTestClass;
         };
     }
 }

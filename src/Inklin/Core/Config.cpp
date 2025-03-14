@@ -15,7 +15,11 @@ Config::Config(const FS::path& configPath) : configFilePath(configPath)
 
 std::string Config::getStrKey(const std::string& line)
 {
-    return line.substr(0, line.find("="));
+    std::string strKey = "";
+    for(size_t i = 0, len = line.find("="); i < len; ++i)
+        if (line[i] != ' ')
+            strKey += line[i];
+    return strKey;
 }
 
 std::string Config::getStrValue(const std::string& line)
