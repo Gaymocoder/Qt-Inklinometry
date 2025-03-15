@@ -22,6 +22,10 @@ SOURCES += \
     ../src/Inklin/Core/Config.cpp \
     ../src/Inklin/Core/Calculator.cpp
     
+HEADERS += \
+    ../include/Tests/Config.h
+    
 SOURCES += \
-    src/ConfigTests.cpp \
+    src/TestsSet/ConfigTestsSet.cpp \
+    src/TestsRun/ConfigTestsRun.cpp \
     src/main.cpp
