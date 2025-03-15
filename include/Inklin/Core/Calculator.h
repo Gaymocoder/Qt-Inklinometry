@@ -11,7 +11,7 @@
 
 namespace FS = std::filesystem;
 
-template <typename TestName, typename InType1, typename InType2, typename OutType>
+template <typename TestName, typename InType1, typename InType2, typename OutType1, typename OutType2>
 struct CalculatorTestClass;
 
 namespace Inklin
@@ -27,18 +27,19 @@ namespace Inklin
                 Config appConfig;
                 SourceDataType fileType;
                 
-                void (*calculateDataSet[3])(DataSet*, DataSet*);
+                void (Calculator::*calculateDataSet[3])(DataSet*, DataSet*) const;
                 
                 void autoIdentifyFileType();
-                void calculateFile() const;
+                void calculateFile(std::ostream& out = std::cout) const;
                 
             public:
                 Calculator(const FS::path& filePath, const FS::path& configFilePath = "./config.ini");
                 
-                static void fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf);
-                static void fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf);
-                static void fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf);
+                void fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf) const;
+                void fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf) const;
+                void fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf) const;
                 
+                Config getConfig() const;
                 FS::path getFilePath() const;
                 SourceDataType getFileType() const;
             

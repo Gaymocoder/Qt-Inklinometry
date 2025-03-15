@@ -90,6 +90,12 @@ inline void Config::setDefaultValue(const std::string& key)
 
 void Config::load()
 {
+    if (!FS::exists(this->configFilePath))
+    {
+        this->save();
+        return;
+    }
+    
     std::string lineBuf;
     std::ifstream configFile(this->configFilePath.string());
     while (std::getline(configFile, lineBuf))
