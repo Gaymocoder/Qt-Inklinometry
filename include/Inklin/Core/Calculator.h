@@ -27,7 +27,7 @@ namespace Inklin
                 Config appConfig;
                 SourceDataType fileType;
                 
-                void (Calculator::*calculateDataSet[3])(DataSet*, DataSet*) const;
+                void (Calculator::*calculateDataSet[3])(DataSet*, DataSet*, double*) const;
                 
                 void autoIdentifyFileType();
                 void calculateFile(std::ostream& out = std::cout) const;
@@ -35,9 +35,9 @@ namespace Inklin
             public:
                 Calculator(const FS::path& filePath, const FS::path& configFilePath = "./config.ini");
                 
-                void fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf) const;
-                void fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf) const;
-                void fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf) const;
+                void fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD = nullptr) const;
+                void fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD = nullptr) const;
+                void fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD = nullptr) const;
                 
                 Config getConfig() const;
                 FS::path getFilePath() const;

@@ -47,7 +47,7 @@ void Calculator::onCalculateRequest() const
     this->calculateFile();
 }
 
-void Calculator::fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf) const
+void Calculator::fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD) const
 {
     double& MD = currDataBuf->Value1;
     double& X  = currDataBuf->Value2;
@@ -64,27 +64,30 @@ void Calculator::fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf) const
     *prevDataBuf = *currDataBuf;
     double Z = sqrt(C - (A + B));
     
-    X = round(X * 10000000000) / 10000000000;
-    Y = round(Y * 10000000000) / 10000000000;
-    Z = round(Z * 10000000000) / 10000000000;
+    if (prevTVD)
+    {
+        Z += *prevTVD;
+        *prevTVD = Z;
+    }
     
     *currDataBuf = {X, Y, Z};
 }
 
-void Calculator::fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf) const
+void Calculator::fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD) const
 {
     currDataBuf->Value2 += this->appConfig.startPosition.Value1; // X = dX + X0
     currDataBuf->Value3 += this->appConfig.startPosition.Value2; // Y = dY + Y0
-    this->fromAbsolute(prevDataBuf, currDataBuf);
+    this->fromAbsolute(prevDataBuf, currDataBuf, prevTVD);
 }
 
-void Calculator::fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf) const
+void Calculator::fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD) const
 {
 }
 
 void Calculator::calculateFile(std::ostream& out) const
 {
     std::string strbuf;
+    double prevTVD = 0;
     DataSet currDataBuf;
     DataSet prevDataBuf = this->appConfig.startPosition;
     
@@ -105,7 +108,7 @@ void Calculator::calculateFile(std::ostream& out) const
         std::stringstream ssbuf(strbuf);
         ssbuf >> currDataBuf;
         
-        (this->*calculateDataSet[this->fileType])(&prevDataBuf, &currDataBuf);
+        (this->*calculateDataSet[this->fileType])(&prevDataBuf, &currDataBuf, &prevTVD);
         out << currDataBuf << std::endl;
     }
     absoluteFile.close();
