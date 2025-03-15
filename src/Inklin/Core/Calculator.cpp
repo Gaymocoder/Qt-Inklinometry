@@ -48,21 +48,27 @@ void Calculator::fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf)
     double& X  = currDataBuf->Value2;
     double& Y  = currDataBuf->Value3;
     
-    double& prMD  = prevDataBuf->Value2;
+    double& prMD  = prevDataBuf->Value1;
     double& prX   = prevDataBuf->Value2;
-    double& prY   = prevDataBuf->Value2;
+    double& prY   = prevDataBuf->Value3;
     
     double A = pow(X - prX, 2);
     double B = pow(Y - prY, 2);
     double C = pow(MD - prMD, 2);
     
     *prevDataBuf = *currDataBuf;
+    double Z = sqrt(C - (A + B));
     
-    *currDataBuf = {X, Y, sqrt(C - (A + B))};
+    X = round(X * 10000000000) / 10000000000;
+    Y = round(Y * 10000000000) / 10000000000;
+    Z = round(Z * 10000000000) / 10000000000;
+    
+    *currDataBuf = {X, Y, Z};
 }
 
 void Calculator::fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf)
 {
+    
 }
 
 void Calculator::fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf)
@@ -106,4 +112,13 @@ std::ostream& Inklin::Core::operator<<(std::ostream& out, const DataSet& ds)
         << std::setw(15) << std::left << std::fixed << std::setprecision(12) << ds.Value3;
     
     return out;
+}
+
+bool Inklin::Core::operator==(const DataSet& lv, const DataSet& rv)
+{
+    return (
+        lv.Value1 == rv.Value1 &&
+        lv.Value2 == rv.Value2 &&
+        lv.Value3 == rv.Value3
+    );
 }

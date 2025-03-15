@@ -9,6 +9,6 @@ INSTANTIATE_TEST_SUITE_P(
         std::make_tuple("KE Y= HELLO",         "KEY", nullptr),
         std::make_tuple("K EY = HEL LO",       "KEY", nullptr),
         std::make_tuple("K EY   =  HEL LO  ",  "KEY", nullptr),
-        std::make_tuple("  K EY   =  HEL LO ", "K EY", nullptr)
+        std::make_tuple("  K EY   =  HEL LO ", "KEY", nullptr)
     )
 );

@@ -29,6 +29,8 @@ namespace Inklin
         
         std::istream& operator>>(std::istream& in, DataSet& ds);
         std::ostream& operator<<(std::ostream& out, const DataSet& ds);
+        
+        bool operator==(const DataSet& value1, const DataSet& value2);
     }
 }
 
