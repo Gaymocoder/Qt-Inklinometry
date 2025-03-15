@@ -11,6 +11,9 @@
 
 namespace FS = std::filesystem;
 
+template <typename TestName, typename InType1, typename InType2, typename OutType>
+struct CalculatorTestClass;
+
 namespace Inklin
 {
     namespace Core
@@ -46,6 +49,8 @@ namespace Inklin
                 virtual void onFileChange(FS::path& newFile);
                 virtual void onFileTypeChange(SourceDataType newFileType);
                 virtual void onCalculateRequest() const;
+                
+            friend struct CalculatorTestClass;
         };
     }
 }
