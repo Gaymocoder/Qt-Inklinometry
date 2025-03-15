@@ -9,7 +9,7 @@
 
 namespace FS = std::filesystem;
 
-template <typename InType1, typename InType2, typename OutType>
+template <typename TestNum, typename InType1, typename InType2, typename OutType>
 struct ConfigTestClass;
 
 namespace Inklin

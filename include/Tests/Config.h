@@ -4,13 +4,13 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "Inklin/Core/Config.h"
+#include "Inklin/Core/Calculator.h"
 
 #include <tuple>
 
 using namespace Inklin::Core;
 
-template <typename InType1, typename InType2, typename OutType>
+template <typename TestNum, typename InType1, typename InType2, typename OutType>
 struct ConfigTestClass : public ::testing::TestWithParam <std::tuple <InType1, InType2, OutType>>
 {
     Config* testingConfig;
