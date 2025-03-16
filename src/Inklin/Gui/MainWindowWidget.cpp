@@ -4,6 +4,7 @@
 #include <QFont>
 #include <QLayout>
 #include <QBoxLayout>
+#include <QButtonGroup>
 
 using namespace Inklin::Gui;
 
@@ -22,9 +23,19 @@ MainWindowWidget::MainWindowWidget(QWidget* parent) : QWidget(parent)
     this->buttonCalculate = new QPushButton("Caclulate", this);
     
     QLabel* title = new QLabel("INKLINOMETRY", this);
+    QButtonGroup* buttonTypeGroup = new QButtonGroup(this);
     FileTypeButton* buttonDelta = new FileTypeButton(Inklin::DELTA, this);
     FileTypeButton* buttonAzimuth = new FileTypeButton(Inklin::AZIMUTH, this);
     FileTypeButton* buttonAbsolute = new FileTypeButton(Inklin::ABSOLUTE, this);
+    
+    buttonTypeGroup->setExclusive(true);
+    buttonTypeGroup->addButton(buttonDelta, 1);
+    buttonTypeGroup->addButton(buttonAzimuth, 2);
+    buttonTypeGroup->addButton(buttonAbsolute, 3);
+    
+    buttonDelta->setCheckable(true);
+    buttonAzimuth->setCheckable(true);
+    buttonAbsolute->setCheckable(true);
     
     title->setFont(QFont("Arial", 40, 20));    
     buttonDelta->setFixedSize(130, 50);

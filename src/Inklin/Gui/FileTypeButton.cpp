@@ -5,7 +5,6 @@ using namespace Inklin::Gui;
 FileTypeButton::FileTypeButton(Inklin::SourceDataType fileType, QWidget* parent) : QPushButton(parent)
 {
     this->dataType = fileType;
-    
     switch (fileType)
     {
         case Inklin::ABSOLUTE:
