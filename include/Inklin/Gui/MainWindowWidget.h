@@ -19,8 +19,6 @@ namespace Inklin
                 QLabel* chosenFile;
                 QLabel* autoDefinedType;
                 
-                QFileDialog* fileSelector;
-                
                 QButtonGroup* buttonTypes;
                 QPushButton* buttonFileSelect;
                 QPushButton* buttonCalculate;
