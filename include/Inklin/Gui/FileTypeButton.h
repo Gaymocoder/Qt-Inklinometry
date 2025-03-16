@@ -19,11 +19,7 @@ namespace Inklin
             public:
                 explicit FileTypeButton(SourceDataType fileType, QWidget* parent = nullptr);
                 
-            signals:
-                void fireFileTypeChange(SourceDataType fileType);
-                
-            protected slots:
-                // virtual void onThisButtonClick();
+                Inklin::SourceDataType getDataType() const;
         };
     }
 }

@@ -24,3 +24,8 @@ FileTypeButton::FileTypeButton(Inklin::SourceDataType fileType, QWidget* parent)
             break;
     }
 }
+
+Inklin::SourceDataType FileTypeButton::getDataType() const
+{
+    return this->dataType;
+}
