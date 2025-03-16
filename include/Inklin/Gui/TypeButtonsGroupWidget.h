@@ -1,10 +1,10 @@
 #ifndef __INKLIN_TYPE_BUTTONS_GROUP_WIDGET_H__
 #define __INKLIN_TYPE_BUTTONS_GROUP_WIDGET_H__
 
-#include "Inklin/SimpleTypes.h"
+#include "Inklin/Gui/FileTypeButton.h"
 
 #include <QLabel>
-#include <QPushButton>
+#include <QWidget>
 
 namespace Inklin
 {
@@ -25,8 +25,8 @@ namespace Inklin
                 void fireFileTypeChanged(SourceDataType newFileType);
                 
             protected slots:
-                void onFileSelected();
-                void onButtonClicked();
+                virtual void onButtonClicked(QAbstractButton* button);
+                virtual void onAutoTypeIdentified(SourceDataType newFileType);
         };
     }
 }

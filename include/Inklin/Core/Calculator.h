@@ -50,6 +50,7 @@ namespace Inklin
                 SourceDataType getFileType() const;
             
             signals:
+                void fireTypeAutoIdentified();
                 void fireCalculationFinished();
                 
             protected slots:

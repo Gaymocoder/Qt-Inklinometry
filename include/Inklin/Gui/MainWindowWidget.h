@@ -4,8 +4,6 @@
 #include <QLabel>
 #include <QWidget>
 #include <QPushButton>
-#include <QButtonGroup>
-#include <QFileDialog>
 
 namespace Inklin
 {
@@ -17,7 +15,6 @@ namespace Inklin
             
             private:
                 QLabel* chosenFile;
-                QLabel* autoDefinedType;
                 
                 QButtonGroup* buttonTypes;
                 QPushButton* buttonFileSelect;
