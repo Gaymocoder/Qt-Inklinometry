@@ -4,31 +4,33 @@
 #include <QLabel>
 #include <QWidget>
 #include <QPushButton>
+#include <QButtonGroup>
 
 namespace Inklin
 {
-    class FileTypeButton;
-    class FileSelectorWidget;
-    
-    class MainWindowWidget : public QWidget
+    namespace Gui
     {
-        Q_OBJECT;
+        class FileTypeButton;
+        class FileSelectorWidget;
         
-        private:
-            QLabel* chosenFile;
-            QLabel* autoDefinedType;
+        class MainWindowWidget : public QWidget
+        {
+            Q_OBJECT;
             
-            FileSelectorWidget* fileSelector;
-            
-            FileTypeButton* buttonAbsolute;
-            FileTypeButton* buttonDelta;
-            FileTypeButton* buttonAzimuth;
-            
-            QPushButton* buttonCalculate;
-            
-        public:
-            explicit MainWindowWidget(QWidget* parent = nullptr);
-    };
+            private:
+                QLabel* chosenFile;
+                QLabel* autoDefinedType;
+                
+                FileSelectorWidget* fileSelector;
+                
+                QButtonGroup* buttonTypes;
+                
+                QPushButton* buttonCalculate;
+                
+            public:
+                explicit MainWindowWidget(QWidget* parent = nullptr);
+        };
+    }
 }
 
 #endif

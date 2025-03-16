@@ -5,18 +5,21 @@
 
 namespace Inklin
 {
-    class MainWindowWidget;
-    
-    class MainWindow : public QMainWindow
+    namespace Gui
     {
-        Q_OBJECT;
+        class MainWindowWidget;
         
-        private:
-            MainWindowWidget* centralWidget;
+        class MainWindow : public QMainWindow
+        {
+            Q_OBJECT;
             
-        public:
-            explicit MainWindow(QWidget* parent = nullptr);
-    };
+            private:
+                MainWindowWidget* centralWidget;
+                
+            public:
+                explicit MainWindow(QWidget* parent = nullptr);
+        };
+    }
 }
 
 #endif
