@@ -23,7 +23,7 @@ namespace Inklin
                 void fireFileTypeChange(SourceDataType fileType);
                 
             protected slots:
-                virtual void onThisButtonClick();
+                // virtual void onThisButtonClick();
         };
     }
 }
