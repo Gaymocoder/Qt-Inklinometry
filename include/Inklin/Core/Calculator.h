@@ -27,7 +27,7 @@ namespace Inklin
             
             private:
                 FS::path file;
-                Config appConfig;
+                Config* appConfig;
                 SourceDataType fileType;
                 
                 void (Calculator::*calculateDataSet[3])(DataSet*, DataSet*, double*) const;
@@ -37,6 +37,9 @@ namespace Inklin
                 
             public:
                 Calculator(const FS::path& filePath, const FS::path& configFilePath = "./config.ini");
+                Calculator(Calculator&& moved);
+                Calculator& operator=(Calculator&& moved);
+                virtual ~Calculator();
                 
                 void fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD = nullptr) const;
                 void fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD = nullptr) const;

@@ -28,6 +28,6 @@ using autoIdentifyFileType_Test = CalculatorTestClass <void***, FS::path, void*,
 TEST_P(autoIdentifyFileType_Test, 0)
 {
     auto [givenFilePath, _, expDataType, __] = GetParam();
-    testingCalculator = new Calculator(givenFilePath, testDataDir/"config.ini/0");
+    *testingCalculator = Calculator(givenFilePath, testDataDir/"config.ini/0");
     EXPECT_EQ(testingCalculator->getFileType(), expDataType);
 }

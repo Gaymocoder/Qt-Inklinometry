@@ -7,14 +7,47 @@
 using Inklin::SourceDataType;
 using namespace Inklin::Core;
 
-Calculator::Calculator(const FS::path& filePath, const FS::path& configFilePath) : appConfig(configFilePath)
+Calculator::Calculator(const FS::path& filePath, const FS::path& configFilePath)
 {
+    this->appConfig = new Config(configFilePath);
+    
     this->file = filePath;
     this->autoIdentifyFileType();
     
     this->calculateDataSet[DELTA] = &Calculator::fromDelta;
     this->calculateDataSet[AZIMUTH] = &Calculator::fromAzimuth;
     this->calculateDataSet[ABSOLUTE] = &Calculator::fromAbsolute;
+}
+
+Calculator::Calculator(Calculator&& moved)
+{
+    this->file = moved.file;
+    this->fileType = moved.fileType;
+    this->appConfig = moved.appConfig;
+    
+    this->calculateDataSet[DELTA] = &Calculator::fromDelta;
+    this->calculateDataSet[AZIMUTH] = &Calculator::fromAzimuth;
+    this->calculateDataSet[ABSOLUTE] = &Calculator::fromAbsolute;
+    
+    moved.file = "";
+    moved.fileType = NONE;
+    moved.appConfig = nullptr;
+}
+
+Calculator& Calculator::operator=(Calculator&& moved)
+{
+    if (&moved == this) return *this;
+    
+    this->~Calculator();
+    new (this) Calculator(std::move(moved));
+    
+    return *this;
+}
+
+Calculator::~Calculator()
+{
+    if (this->appConfig)
+        delete this->appConfig;
 }
 
 void Calculator::autoIdentifyFileType()
@@ -55,7 +88,7 @@ Inklin::SourceDataType Calculator::getFileType() const
 
 Config Calculator::getConfig() const
 {
-    return this->appConfig;
+    return *(this->appConfig);
 }
 
 void Calculator::onCalculateRequest() const
@@ -91,8 +124,8 @@ void Calculator::fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf, double
 
 void Calculator::fromDelta(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD) const
 {
-    currDataBuf->Value2 += this->appConfig.startPosition.Value1; // X = dX + X0
-    currDataBuf->Value3 += this->appConfig.startPosition.Value2; // Y = dY + Y0
+    currDataBuf->Value2 += this->appConfig->startPosition.Value1; // X = dX + X0
+    currDataBuf->Value3 += this->appConfig->startPosition.Value2; // Y = dY + Y0
     this->fromAbsolute(prevDataBuf, currDataBuf, prevTVD);
 }
 
@@ -105,9 +138,9 @@ void Calculator::calculateFile(std::ostream& out) const
     std::string strbuf;
     double prevTVD = 0;
     DataSet currDataBuf;
-    DataSet prevDataBuf = this->appConfig.startPosition;
+    DataSet prevDataBuf = this->appConfig->startPosition;
     
-    out << this->appConfig.startPosition << std::endl;
+    out << this->appConfig->startPosition << std::endl;
     
     // To "Z X Y" record view
     prevDataBuf.Value3 = prevDataBuf.Value2;
