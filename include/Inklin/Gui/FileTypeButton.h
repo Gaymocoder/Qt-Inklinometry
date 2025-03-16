@@ -14,10 +14,13 @@ namespace Inklin
             Q_OBJECT;
             
             private:
-                SourceDataType dataType;
+                Inklin::SourceDataType dataType;
                 
             public:
-                explicit FileTypeButton(QWidget* parent = nullptr);
+                explicit FileTypeButton(SourceDataType fileType, QWidget* parent = nullptr);
+                
+            signals:
+                void fireFileTypeChange(SourceDataType fileType);
                 
             protected slots:
                 virtual void onThisButtonClick();
