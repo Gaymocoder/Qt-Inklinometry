@@ -1,7 +1,7 @@
 #include "Tests/CalculatorTest.h"
 
-using fromAbsoluteTest = CalculatorTestClass <void*, DataSet, DataSet, DataSet, DataSet>;
-TEST_P(fromAbsoluteTest, 0)
+using fromAbsolute_Test = CalculatorTestClass <void*, DataSet, DataSet, DataSet, DataSet>;
+TEST_P(fromAbsolute_Test, 0)
 {
     auto [actPrevDataBuf, actCurrDataBuf, expPrevDataBuf, expCurrDataBuf] = GetParam();
     
@@ -11,8 +11,8 @@ TEST_P(fromAbsoluteTest, 0)
     EXPECT_EQ(actCurrDataBuf, expCurrDataBuf);
 }
 
-using fromDeltaTest = CalculatorTestClass <void**, DataSet, DataSet, DataSet, DataSet>;
-TEST_P(fromDeltaTest, 0)
+using fromDelta_Test = CalculatorTestClass <void**, DataSet, DataSet, DataSet, DataSet>;
+TEST_P(fromDelta_Test, 0)
 {
     auto [actPrevDataBuf, actCurrDataBuf, expPrevDataBuf, expCurrDataBuf] = GetParam();
     
@@ -22,4 +22,12 @@ TEST_P(fromDeltaTest, 0)
     
     EXPECT_EQ(actPrevDataBuf, expPrevDataBuf);
     EXPECT_EQ(actCurrDataBuf, expCurrDataBuf);
+}
+
+using autoIdentifyFileType_Test = CalculatorTestClass <void***, FS::path, void*, Inklin::SourceDataType, void*>;
+TEST_P(autoIdentifyFileType_Test, 0)
+{
+    auto [givenFilePath, _, expDataType, __] = GetParam();
+    testingCalculator = new Calculator(givenFilePath, testDataDir/"config.ini/0");
+    EXPECT_EQ(testingCalculator->getFileType(), expDataType);
 }

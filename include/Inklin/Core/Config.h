@@ -45,7 +45,7 @@ namespace Inklin
                 
                 virtual ~Config() = default;
                 
-            template <typename InType1, typename InType2, typename OutType>
+            template <typename TestNum, typename InType1, typename InType2, typename OutType>
             friend struct ::ConfigTestClass;
         };
     }

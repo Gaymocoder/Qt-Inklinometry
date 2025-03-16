@@ -10,11 +10,27 @@ using namespace Inklin::Core;
 Calculator::Calculator(const FS::path& filePath, const FS::path& configFilePath) : appConfig(configFilePath)
 {
     this->file = filePath;
-    this->fileType = NONE;
+    this->autoIdentifyFileType();
     
     this->calculateDataSet[DELTA] = &Calculator::fromDelta;
     this->calculateDataSet[AZIMUTH] = &Calculator::fromAzimuth;
     this->calculateDataSet[ABSOLUTE] = &Calculator::fromAbsolute;
+}
+
+void Calculator::autoIdentifyFileType()
+{
+    std::string arg1 = "",
+                arg2 = "",
+                arg3 = "";
+    std::ifstream fileStream(this->file.string());
+    fileStream >> arg1 >> arg2 >> arg3;
+    
+    if      (arg1 == "MD" && arg2 == "X"    && arg3 == "Y") this->fileType = ABSOLUTE;
+    else if (arg1 == "MD" && arg2 == "DX"   && arg3 == "DY") this->fileType = DELTA;
+    else if (arg1 == "MD" && arg2 == "AZIM" && arg3 == "INCL") this->fileType = AZIMUTH;
+    else this->fileType = NONE;
+    
+    fileStream.close();
 }
 
 void Calculator::onFileChange(FS::path& newFile)
@@ -105,6 +121,7 @@ void Calculator::calculateFile(std::ostream& out) const
     std::getline(absoluteFile, strbuf);
     while (std::getline(absoluteFile, strbuf))
     {
+        std::cout << strbuf << std::endl;
         std::stringstream ssbuf(strbuf);
         ssbuf >> currDataBuf;
         

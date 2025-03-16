@@ -11,7 +11,7 @@
 
 namespace FS = std::filesystem;
 
-template <typename TestName, typename InType1, typename InType2, typename OutType1, typename OutType2>
+template <typename TestNum, typename InType1, typename InType2, typename OutType1, typename OutType2>
 struct CalculatorTestClass;
 
 namespace Inklin
@@ -21,6 +21,9 @@ namespace Inklin
         class Calculator : public QObject
         {
             Q_OBJECT;
+            
+            template <typename TestNum, typename InType1, typename InType2, typename OutType1, typename OutType2>
+            friend struct ::CalculatorTestClass;
             
             private:
                 FS::path file;
@@ -50,8 +53,6 @@ namespace Inklin
                 virtual void onFileChange(FS::path& newFile);
                 virtual void onFileTypeChange(SourceDataType newFileType);
                 virtual void onCalculateRequest() const;
-                
-            friend struct CalculatorTestClass;
         };
     }
 }
