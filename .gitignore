@@ -8,6 +8,7 @@
 # Ignore bin and build directories
 bin/
 build/
+!bin/config.ini
 
 # Ignore directory with the task
 task/

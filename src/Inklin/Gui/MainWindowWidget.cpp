@@ -7,6 +7,7 @@
 #include <QLayout>
 #include <QBoxLayout>
 #include <QButtonGroup>
+#include <QMessageBox>
 #include <QFileDialog>
 
 using namespace Inklin::Gui;
@@ -46,12 +47,13 @@ MainWindowWidget::MainWindowWidget(QWidget* parent) : QWidget(parent)
     mainLayout->addWidget(title,            0, 0, 2, 6, Qt::AlignCenter);
     mainLayout->addWidget(buttonCalculate, 10, 1, 1, 4, Qt::AlignCenter);
     
-    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged, theCalculator, &Inklin::Core::Calculator::onFileTypeChange);
-    connect(theCalculator, &Inklin::Core::Calculator::fireTypeAutoIdentified, widgetTypeChoose, &TypeButtonsGroup::onAutoTypeIdentified);
-    connect(buttonCalculate, &QPushButton::clicked, theCalculator, &Inklin::Core::Calculator::onCalculateRequest);
     connect(this, &MainWindowWidget::fireNewFileSelected, theCalculator, &Inklin::Core::Calculator::onFileChange);
+    connect(buttonCalculate,  &QPushButton::clicked, theCalculator, &Inklin::Core::Calculator::onCalculateRequest);
     connect(buttonFileSelect, &QPushButton::clicked, this, &MainWindowWidget::onFileSelectButtonClick);
+    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged, theCalculator, &Inklin::Core::Calculator::onFileTypeChange);
     connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged, this, &MainWindowWidget::onFileTypeSelected);
+    connect(theCalculator, &Inklin::Core::Calculator::fireTypeAutoIdentified, widgetTypeChoose, &TypeButtonsGroup::onAutoTypeIdentified);
+    connect(theCalculator, &Inklin::Core::Calculator::fireCalculationFinished, this, &MainWindowWidget::onCalculationFinished);
     
     this->setLayout(mainLayout);
 }
@@ -78,4 +80,10 @@ void MainWindowWidget::onFileTypeSelected()
 {
     if (!this->buttonCalculate->isEnabled())
         this->buttonCalculate->setEnabled(true);
+}
+
+void MainWindowWidget::onCalculationFinished()
+{
+    std::cout << "End of calculating of the " << this->chosenFile->text().toStdString() << std::endl;
+    QMessageBox::information(this, "Calculations finished", "Calculations are finished! All data was printed to STDOUT");
 }

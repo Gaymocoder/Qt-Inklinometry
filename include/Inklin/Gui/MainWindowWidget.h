@@ -32,6 +32,7 @@ namespace Inklin
                 
             public slots:
                 virtual void onFileSelectButtonClick();
+                virtual void onCalculationFinished();
                 virtual void onFileTypeSelected();
         };
     }
