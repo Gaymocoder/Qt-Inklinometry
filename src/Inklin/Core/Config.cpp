@@ -24,7 +24,13 @@ std::string Config::getStrKey(const std::string& line)
 
 std::string Config::getStrValue(const std::string& line)
 {
-    return line.substr(line.find("=") + 1);
+    size_t valueStart = line.find("=") + 1;
+    size_t valueEnd   = line.length() - 1;
+    
+    for(; line[valueEnd] == ' ' && valueStart < valueEnd; --valueEnd);
+    for(; line[valueStart] == ' ' && valueStart < valueEnd; ++valueStart);
+    
+    return line.substr(valueStart, valueEnd - valueStart + 1);
 }
 
 ConfigKeys Config::strToKey(const std::string& key)

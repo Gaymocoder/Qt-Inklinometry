@@ -16,6 +16,7 @@ struct ConfigTestClass : public ::testing::TestWithParam <std::tuple <InType1, I
     Config* testingConfig;
     
     inline std::string getStrKey(const std::string& line) {return Config::getStrKey(line);}
+    inline std::string getStrValue(const std::string& line) {return Config::getStrValue(line);}
     
     void SetUp()
     {
