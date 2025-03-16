@@ -24,7 +24,7 @@ namespace Inklin
             signals:
                 void fireFileTypeChanged(SourceDataType newFileType);
                 
-            protected slots:
+            public slots:
                 virtual void onButtonToggled(QAbstractButton* button);
                 virtual void onAutoTypeIdentified(SourceDataType newFileType);
         };

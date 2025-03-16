@@ -36,7 +36,7 @@ namespace Inklin
                 void calculateFile(DataSet* checkingBuf = nullptr) const;
                 
             public:
-                Calculator(const FS::path& filePath, const FS::path& configFilePath = "./config.ini");
+                Calculator(const FS::path& filePath, const FS::path& configFilePath = "../config.ini");
                 Calculator(Calculator&& moved);
                 Calculator& operator=(Calculator&& moved);
                 virtual ~Calculator();
@@ -50,11 +50,11 @@ namespace Inklin
                 SourceDataType getFileType() const;
             
             signals:
-                void fireTypeAutoIdentified();
-                void fireCalculationFinished();
+                void fireTypeAutoIdentified(SourceDataType newFileType) const;
+                void fireCalculationFinished() const;
                 
-            protected slots:
-                virtual void onFileChange(FS::path& newFile);
+            public slots:
+                virtual void onFileChange(const FS::path& newFile);
                 virtual void onFileTypeChange(SourceDataType newFileType);
                 virtual void onCalculateRequest() const;
         };

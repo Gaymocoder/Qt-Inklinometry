@@ -9,7 +9,7 @@ TypeButtonsGroup::TypeButtonsGroup(QWidget* parent) : QWidget(parent)
 {
     QGridLayout* mainLayout = new QGridLayout();
  
-    this->autoDefinedType = new QLabel("There'll be something", this);
+    this->autoDefinedType = new QLabel("", this);
     
     this->buttonTypeGroup = new QButtonGroup(this);
     FileTypeButton* buttonDelta = new FileTypeButton(Inklin::DELTA, this);
@@ -53,5 +53,13 @@ void TypeButtonsGroup::onButtonToggled(QAbstractButton* button)
 
 void TypeButtonsGroup::onAutoTypeIdentified(Inklin::SourceDataType newFileType)
 {
+    if (newFileType == Inklin::NONE)
+    {
+        this->autoDefinedType->setText("Cannot automatically identify file type");
+        return;
+    }
     this->buttonTypeGroup->button(newFileType)->setChecked(true);
+    this->autoDefinedType->setText("File type identified automatically");
+    
+    emit fireFileTypeChanged(newFileType);
 }

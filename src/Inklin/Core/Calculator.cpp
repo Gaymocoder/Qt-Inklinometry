@@ -55,6 +55,7 @@ void Calculator::autoIdentifyFileType()
     std::string arg1 = "",
                 arg2 = "",
                 arg3 = "";
+    
     std::ifstream fileStream(this->file.string());
     fileStream >> arg1 >> arg2 >> arg3;
     
@@ -64,11 +65,14 @@ void Calculator::autoIdentifyFileType()
     else this->fileType = NONE;
     
     fileStream.close();
+    
+    emit fireTypeAutoIdentified(this->fileType);
 }
 
-void Calculator::onFileChange(FS::path& newFile)
+void Calculator::onFileChange(const FS::path& newFile)
 {
     this->file = newFile;
+    this->autoIdentifyFileType();
 }
 
 void Calculator::onFileTypeChange(Inklin::SourceDataType newFileType)
@@ -93,7 +97,10 @@ Config Calculator::getConfig() const
 
 void Calculator::onCalculateRequest() const
 {
+    std::cout << this->file << std::endl;
     this->calculateFile();
+    
+    emit fireCalculationFinished();
 }
 
 void Calculator::fromAbsolute(DataSet* prevDataBuf, DataSet* currDataBuf, double* prevTVD) const
@@ -156,11 +163,11 @@ void Calculator::calculateFile(DataSet* checkingBuf) const
         ssbuf >> currDataBuf;
         
         (this->*calculateDataSet[this->fileType])(&prevDataBuf, &currDataBuf, &prevTVD);
-            
+        
         if (checkingBuf && *checkingBuf != currDataBuf)
             *checkingBuf = {-1, -1, -1};
-        ++checkingBuf;
-        
+        if (checkingBuf) ++checkingBuf;
+            
         std::cout << currDataBuf << std::endl;
     }
     absoluteFile.close();
