@@ -15,8 +15,8 @@ namespace Inklin
             Q_OBJECT;
             
             private:
-                SourceDataType selectedType;
                 QLabel* autoDefinedType;
+                QButtonGroup* buttonTypeGroup;
             
             public:
                 explicit TypeButtonsGroup(QWidget* parent = nullptr);
@@ -25,7 +25,7 @@ namespace Inklin
                 void fireFileTypeChanged(SourceDataType newFileType);
                 
             protected slots:
-                virtual void onButtonClicked(QAbstractButton* button);
+                virtual void onButtonToggled(QAbstractButton* button);
                 virtual void onAutoTypeIdentified(SourceDataType newFileType);
         };
     }

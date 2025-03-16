@@ -9,18 +9,17 @@ TypeButtonsGroup::TypeButtonsGroup(QWidget* parent) : QWidget(parent)
 {
     QGridLayout* mainLayout = new QGridLayout();
  
-    this->selectedType = Inklin::NONE;
     this->autoDefinedType = new QLabel("There'll be something", this);
     
-    QButtonGroup* buttonTypeGroup = new QButtonGroup(this);
+    this->buttonTypeGroup = new QButtonGroup(this);
     FileTypeButton* buttonDelta = new FileTypeButton(Inklin::DELTA, this);
     FileTypeButton* buttonAzimuth = new FileTypeButton(Inklin::AZIMUTH, this);
     FileTypeButton* buttonAbsolute = new FileTypeButton(Inklin::ABSOLUTE, this);
     
-    buttonTypeGroup->setExclusive(true);
-    buttonTypeGroup->addButton(buttonDelta, 1);
-    buttonTypeGroup->addButton(buttonAzimuth, 2);
-    buttonTypeGroup->addButton(buttonAbsolute, 3);
+    this->buttonTypeGroup->setExclusive(true);
+    this->buttonTypeGroup->addButton(buttonDelta, 1);
+    this->buttonTypeGroup->addButton(buttonAzimuth, 2);
+    this->buttonTypeGroup->addButton(buttonAbsolute, 0);
     
     buttonDelta->setCheckable(true);
     buttonAzimuth->setCheckable(true);
@@ -40,13 +39,19 @@ TypeButtonsGroup::TypeButtonsGroup(QWidget* parent) : QWidget(parent)
     mainLayout->setAlignment(buttonAbsolute, Qt::AlignCenter);
     mainLayout->setAlignment(autoDefinedType, Qt::AlignCenter | Qt::AlignTop);
     
+    connect(this->buttonTypeGroup, &QButtonGroup::buttonToggled, this, &TypeButtonsGroup::onButtonToggled);
+    
     this->setLayout(mainLayout);
 }
 
-void TypeButtonsGroup::onButtonClicked(QAbstractButton* button)
+void TypeButtonsGroup::onButtonToggled(QAbstractButton* button)
 {
+    if (!button->isChecked()) return;
+    FileTypeButton* ftButton = dynamic_cast <FileTypeButton*> (button);
+    emit fireFileTypeChanged(ftButton->getDataType());
 }
 
 void TypeButtonsGroup::onAutoTypeIdentified(Inklin::SourceDataType newFileType)
 {
+    this->buttonTypeGroup->button(newFileType)->setChecked(true);
 }
