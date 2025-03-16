@@ -31,6 +31,7 @@ namespace Inklin
         std::ostream& operator<<(std::ostream& out, const DataSet& ds);
         
         bool operator==(const DataSet& value1, const DataSet& value2);
+        bool operator!=(const DataSet& value1, const DataSet& value2);
     }
 }
 

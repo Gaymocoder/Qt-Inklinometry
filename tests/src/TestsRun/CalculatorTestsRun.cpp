@@ -50,3 +50,35 @@ INSTANTIATE_TEST_SUITE_P(
         std::make_tuple("../tests/data/InklinAzim.txt/0.test", nullptr, Inklin::AZIMUTH, nullptr)
     )
 );
+
+using calculateAbsFile_Test = CalculatorTestClass <void****, int, void*, void*, void*>;
+INSTANTIATE_TEST_SUITE_P(
+    CalculatorTests,
+    calculateAbsFile_Test,
+    ::testing::Values(
+        std::make_tuple(0, nullptr, nullptr, nullptr),
+        std::make_tuple(1, nullptr, nullptr, nullptr)
+    )
+);
+
+
+using calculateDeltaFile_Test = CalculatorTestClass <void*****, int, void*, void*, void*>;
+INSTANTIATE_TEST_SUITE_P(
+    CalculatorTests,
+    calculateDeltaFile_Test,
+    ::testing::Values(
+        std::make_tuple(0, nullptr, nullptr, nullptr),
+        std::make_tuple(1, nullptr, nullptr, nullptr)
+    )
+);
+
+using calculateAzimFile_Test = CalculatorTestClass <void******, int, void*, void*, void*>;
+INSTANTIATE_TEST_SUITE_P(
+    CalculatorTests,
+    calculateAzimFile_Test,
+    ::testing::Values(
+        std::make_tuple(0, nullptr, nullptr, nullptr),
+        std::make_tuple(1, nullptr, nullptr, nullptr)
+    )
+);
+

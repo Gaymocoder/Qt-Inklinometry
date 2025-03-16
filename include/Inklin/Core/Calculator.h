@@ -33,7 +33,7 @@ namespace Inklin
                 void (Calculator::*calculateDataSet[3])(DataSet*, DataSet*, double*) const;
                 
                 void autoIdentifyFileType();
-                void calculateFile(std::ostream& out = std::cout) const;
+                void calculateFile(DataSet* checkingBuf = nullptr) const;
                 
             public:
                 Calculator(const FS::path& filePath, const FS::path& configFilePath = "./config.ini");

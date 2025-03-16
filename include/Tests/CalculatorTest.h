@@ -16,7 +16,7 @@ struct CalculatorTestClass : public ::testing::TestWithParam <std::tuple <InType
 {
     Calculator* testingCalculator;
     
-    inline void calculateFile(std::ostream& out = std::cout) {testingCalculator->calculateFile(out);}
+    inline void calculateFile(DataSet* answers = nullptr) {testingCalculator->calculateFile(answers);}
     
     void SetUp()
     {

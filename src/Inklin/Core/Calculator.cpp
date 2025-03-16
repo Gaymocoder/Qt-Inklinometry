@@ -133,14 +133,12 @@ void Calculator::fromAzimuth(DataSet* prevDataBuf, DataSet* currDataBuf, double*
 {
 }
 
-void Calculator::calculateFile(std::ostream& out) const
+void Calculator::calculateFile(DataSet* checkingBuf) const
 {
     std::string strbuf;
     double prevTVD = 0;
     DataSet currDataBuf;
     DataSet prevDataBuf = this->appConfig->startPosition;
-    
-    out << this->appConfig->startPosition << std::endl;
     
     // To "Z X Y" record view
     prevDataBuf.Value3 = prevDataBuf.Value2;
@@ -149,17 +147,21 @@ void Calculator::calculateFile(std::ostream& out) const
     
     std::ifstream absoluteFile(this->file.string());
     if (!absoluteFile)
-        throw std::ios_base::failure("Calculator::calculateAbsoluteFile(): Failed to open the file");
+        throw std::ios_base::failure("Calculator::calculateFile(): Failed to open the file");
     
     std::getline(absoluteFile, strbuf);
     while (std::getline(absoluteFile, strbuf))
     {
-        std::cout << strbuf << std::endl;
         std::stringstream ssbuf(strbuf);
         ssbuf >> currDataBuf;
         
         (this->*calculateDataSet[this->fileType])(&prevDataBuf, &currDataBuf, &prevTVD);
-        out << currDataBuf << std::endl;
+            
+        if (checkingBuf && *checkingBuf != currDataBuf)
+            *checkingBuf = {-1, -1, -1};
+        ++checkingBuf;
+        
+        std::cout << currDataBuf << std::endl;
     }
     absoluteFile.close();
 }
@@ -179,9 +181,9 @@ std::ostream& Inklin::Core::operator<<(std::ostream& out, const DataSet& ds)
     int roundV2 = 11 - (static_cast <int> (std::log10(std::fabs(ds.Value2))) + 1);
     int roundV3 = 11 - (static_cast <int> (std::log10(std::fabs(ds.Value3))) + 1);
     
-    if (roundV1 > 10) roundV1 = 10;
-    if (roundV2 > 10) roundV2 = 10;
-    if (roundV3 > 10) roundV3 = 10;
+    if (roundV1 > 10 || roundV1 < 0) roundV1 = 10;
+    if (roundV2 > 10 || roundV2 < 0) roundV2 = 10;
+    if (roundV3 > 10 || roundV3 < 0) roundV3 = 10;
     
     out << std::fixed << std::setprecision(roundV1) << ds.Value1 << "  "
         << std::fixed << std::setprecision(roundV2) << ds.Value2 << "  "
@@ -195,10 +197,19 @@ bool Inklin::Core::operator==(const DataSet& lv, const DataSet& rv)
     int roundV1 = 11 - (static_cast <int> (std::log10(std::fabs(lv.Value1))) + 1);
     int roundV2 = 11 - (static_cast <int> (std::log10(std::fabs(lv.Value2))) + 1);
     int roundV3 = 11 - (static_cast <int> (std::log10(std::fabs(lv.Value3))) + 1);
+    
+    if (roundV1 > 10 || roundV1 < 0) roundV1 = 10;
+    if (roundV2 > 10 || roundV2 < 0) roundV2 = 10;
+    if (roundV3 > 10 || roundV3 < 0) roundV3 = 10;
         
     return (
         std::fabs(lv.Value1 - rv.Value1) < std::pow(10, -roundV1) &&
         std::fabs(lv.Value2 - rv.Value2) < std::pow(10, -roundV2) &&
         std::fabs(lv.Value3 - rv.Value3) < std::pow(10, -roundV3)
     );
+}
+
+bool Inklin::Core::operator!=(const DataSet& lv, const DataSet& rv)
+{
+    return !(lv == rv);
 }
