@@ -9,6 +9,7 @@
 #include <tuple>
 
 using namespace Inklin::Core;
+FS::path testDataDir("../tests/data/");
 
 template <typename TestNum, typename InType1, typename InType2, typename OutType1, typename OutType2>
 struct CalculatorTestClass : public ::testing::TestWithParam <std::tuple <InType1, InType2, OutType1, OutType2>>
@@ -17,7 +18,7 @@ struct CalculatorTestClass : public ::testing::TestWithParam <std::tuple <InType
     
     void SetUp()
     {
-        this->testingCalculator = new Calculator("Inklin_delta.txt", "../tests/data/Config.ini");
+        this->testingCalculator = new Calculator("Inklin_delta.txt", testDataDir/"config.ini/0");
     }
     
     void TearDown()

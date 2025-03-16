@@ -23,8 +23,8 @@ SOURCES += \
     ../src/Inklin/Core/Calculator.cpp
     
 HEADERS += \
-    ../include/Tests/Config.h \
-    ../include/Tests/Calculator.h
+    ../include/Tests/ConfigTest.h \
+    ../include/Tests/CalculatorTest.h
     
 SOURCES += \
     src/TestsSet/ConfigTestsSet.cpp \

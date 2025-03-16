@@ -1,4 +1,4 @@
-#include "Tests/Config.h"
+#include "Tests/ConfigTest.h"
 
 using getStrKeyTest = ConfigTestClass <void*, std::string, std::string, void*>;
 INSTANTIATE_TEST_SUITE_P(

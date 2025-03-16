@@ -1,4 +1,4 @@
-#include "Tests/Calculator.h"
+#include "Tests/CalculatorTest.h"
 
 using fromAbsoluteTest = CalculatorTestClass <void*, DataSet, DataSet, DataSet, DataSet>;
 INSTANTIATE_TEST_SUITE_P(
