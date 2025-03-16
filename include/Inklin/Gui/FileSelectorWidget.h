@@ -3,14 +3,13 @@
 
 #include "Inklin/SimpleTypes.h"
 
-#include <QPushButton>
+#include <QFileDialog>
 
 namespace Inklin
 {
     namespace Gui
     {
-        class FileSelectorWidget : public QFileDialog
-        {
+        class FileSelectorWidget : public QFileDialog {
             Q_OBJECT;
             
             private:

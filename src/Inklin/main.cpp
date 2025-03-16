@@ -1,10 +1,11 @@
+#include "Inklin/Gui/MainWindow.h"
+
 #include <QApplication>
-#include <QWidget>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QWidget window;
+    Inklin::Gui::MainWindow window;
     window.show();
     return app.exec();
 }
