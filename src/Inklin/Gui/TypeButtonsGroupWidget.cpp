@@ -44,9 +44,9 @@ TypeButtonsGroup::TypeButtonsGroup(QWidget* parent) : QWidget(parent)
     this->setLayout(mainLayout);
 }
 
-void TypeButtonsGroup::onButtonToggled(QAbstractButton* button)
+void TypeButtonsGroup::onButtonToggled(QAbstractButton* button, bool checked)
 {
-    if (!button->isChecked()) return;
+    if (!checked) return;
     FileTypeButton* ftButton = dynamic_cast <FileTypeButton*> (button);
     emit fireFileTypeChanged(ftButton->getDataType());
 }
