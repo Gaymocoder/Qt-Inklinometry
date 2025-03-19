@@ -13,22 +13,18 @@ HEADERS += \
     ../include/Inklin/SimpleTypes.h \
     ../include/Inklin/Core/Config.h \
     ../include/Inklin/Core/Calculator.h \
-    # ../include/Inklin/Gui/FileSelectorWidget.h \
-    # ../include/Inklin/Gui/FileTypeButton.h \
-    # ../include/Inklin/Gui/MainWindowWidget.h \
-    # ../include/Inklin/Gui/MainWindow.h
 
 SOURCES += \
-    ../src/Inklin/Core/Config.cpp \
-    ../src/Inklin/Core/Calculator.cpp
+    ../Inklin/src/Core/Config.cpp \
+    ../Inklin/src/Core/Calculator.cpp
     
 HEADERS += \
     ../include/Tests/ConfigTest.h \
     ../include/Tests/CalculatorTest.h
     
 SOURCES += \
-    src/TestsSet/ConfigTestsSet.cpp \
-    src/TestsRun/ConfigTestsRun.cpp \
-    src/TestsSet/CalculatorTestsSet.cpp \
-    src/TestsRun/CalculatorTestsRun.cpp \
-    src/main.cpp
+    ./src/TestsSet/ConfigTestsSet.cpp \
+    ./src/TestsRun/ConfigTestsRun.cpp \
+    ./src/TestsSet/CalculatorTestsSet.cpp \
+    ./src/TestsRun/CalculatorTestsRun.cpp \
+    ./src/main.cpp

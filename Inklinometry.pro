@@ -2,4 +2,4 @@ TEMPLATE = subdirs
 SUBDIRS += Tests Inklin
 
 Tests.file = tests/Tests.pro
-Inklin.file = src/Inklin/Inklin.pro
+Inklin.file = Inklin/Inklin.pro
