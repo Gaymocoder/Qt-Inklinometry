@@ -8,9 +8,8 @@
 # Ignore bin and build directories
 bin/
 build/
+*Makefile*
 !bin/config.ini
 
 # Ignore directory with the task
 task/
-
-

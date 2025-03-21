@@ -1,12 +1,19 @@
 TEMPLATE = app
 QT += widgets
 
-CONFIG += c++17
-CONFIG += debug release
-CONFIG += warn_on
+CONFIG += c++17 warn_on release
+BUILDDIR = $$PWD/../build/Inklin/
+
+make_builddir.target = $$BUILDDIR
+make_builddir.commands = mkdir -p $$BUILDDIR
+QMAKE_EXTRA_TARGETS += make_builddir
+PRE_TARGETDEPS += $$BUILDDIR
 
 TARGET = Inklinometry
 DESTDIR = $${PWD}/../bin/
+MOC_DIR = $${PWD}/../build/Inklin/
+OBJECTS_DIR = $${PWD}/../build/Inklin/
+
 INCLUDEPATH += $${PWD}/../include/
     
 HEADERS += \
