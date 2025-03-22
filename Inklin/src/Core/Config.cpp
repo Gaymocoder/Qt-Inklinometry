@@ -115,10 +115,11 @@ void Config::load()
 
 void Config::save() const
 {
+    if (!FS::exists(this->configFilePath.parent_path()))
+        FS::create_directories(this->configFilePath.parent_path());        
     std::ofstream configFile(this->configFilePath.string());
     
     configFile << Config::pairToStr(ConfigKeys::STARTPOS, &(this->startPosition)) << std::endl;
     
     configFile.close();
 }
-

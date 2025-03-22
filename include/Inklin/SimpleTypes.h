@@ -1,6 +1,14 @@
 #ifndef __INKLIN_SIMPLE_TYPES_H__
 #define __INKLIN_SIMPLE_TYPES_H__
 
+#ifndef _WIN32
+    #define LINUX_BUILD true
+    #define WINDOWS_BUILD false
+#else
+    #define LINUX_BUILD false
+    #define WINDOWS_BUILD true
+#endif
+
 #include <iostream>
 
 namespace Inklin

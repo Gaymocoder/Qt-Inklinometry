@@ -7,8 +7,15 @@
 using Inklin::SourceDataType;
 using namespace Inklin::Core;
 
-Calculator::Calculator(const FS::path& filePath, const FS::path& configFilePath)
+Calculator::Calculator(const FS::path& filePath, FS::path configFilePath)
 {
+    if (configFilePath == "")
+    {
+        FS::path configDirPath = LINUX_BUILD ? FS::path(std::getenv("HOME"))/".config" : FS::path(std::getenv("APPDATA"))/"Roaming";
+        configFilePath = configDirPath/"Inklinometry"/"config.ini";
+    }
+    
+    std::cout << FS::weakly_canonical(configFilePath) << std::endl;
     this->appConfig = new Config(configFilePath);
     
     this->file = filePath;

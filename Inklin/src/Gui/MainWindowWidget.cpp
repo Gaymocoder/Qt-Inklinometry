@@ -14,8 +14,7 @@ using namespace Inklin::Gui;
 
 MainWindowWidget::MainWindowWidget(QWidget* parent) : QWidget(parent)
 {
-    const FS::path currentApplicationPath = FS::canonical("/proc/self/exe").remove_filename();
-    Inklin::Core::Calculator* theCalculator = new Inklin::Core::Calculator("", currentApplicationPath/"config.ini");
+    Inklin::Core::Calculator* theCalculator = new Inklin::Core::Calculator("");
     
     QGridLayout* mainLayout = new QGridLayout(this);
     QGridLayout* layoutFileChoose = new QGridLayout(this);

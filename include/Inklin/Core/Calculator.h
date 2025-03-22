@@ -36,7 +36,7 @@ namespace Inklin
                 void calculateFile(DataSet* checkingBuf = nullptr) const;
                 
             public:
-                Calculator(const FS::path& filePath, const FS::path& configFilePath = "../config.ini");
+                Calculator(const FS::path& filePath, FS::path configFilePath = "");
                 Calculator(Calculator&& moved);
                 Calculator& operator=(Calculator&& moved);
                 virtual ~Calculator();
