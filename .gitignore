@@ -13,3 +13,6 @@ build/
 
 # Ignore directory with the task
 task/
+
+# Ignore directory with deb-package sources
+deb/

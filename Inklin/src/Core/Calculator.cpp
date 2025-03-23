@@ -15,7 +15,6 @@ Calculator::Calculator(const FS::path& filePath, FS::path configFilePath)
         configFilePath = configDirPath/"Inklinometry"/"config.ini";
     }
     
-    std::cout << FS::weakly_canonical(configFilePath) << std::endl;
     this->appConfig = new Config(configFilePath);
     
     this->file = filePath;

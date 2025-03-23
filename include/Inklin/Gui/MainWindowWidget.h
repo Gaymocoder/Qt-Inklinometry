@@ -20,7 +20,6 @@ namespace Inklin
             private:
                 QLabel* chosenFile;
                 
-                QButtonGroup* buttonTypes;
                 QPushButton* buttonFileSelect;
                 QPushButton* buttonCalculate;
                 
