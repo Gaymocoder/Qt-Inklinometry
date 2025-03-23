@@ -15,9 +15,9 @@ namespace Inklin
             Q_OBJECT;
             
             private:
-                Config* appConfig;
+                Core::Config* appConfig;
                 
-                QLineEdit* startPos[3];
+                QLineEdit* startPosValues[3];
                 QPushButton* applyStartPos;
                 
             public:

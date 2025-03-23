@@ -19,7 +19,7 @@ namespace Inklin
                 QButtonGroup* buttonTypeGroup;
             
             public:
-                explicit TypeButtonsGroup(QWidget* parent = nullptr);
+                explicit TypeButtonsGroup(Core::Config* appConfig, QWidget* parent = nullptr);
                 
             signals:
                 void fireFileTypeChanged(SourceDataType newFileType);
