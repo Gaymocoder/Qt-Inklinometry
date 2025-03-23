@@ -104,6 +104,7 @@ Inklin::SourceDataType Calculator::getFileType() const
 void Calculator::setConfigValue(const std::string& key, const std::string& value)
 {
     this->appConfig->setValue(key, value);
+    this->appConfig->save();
 }
 
 void Calculator::onCalculateRequest() const

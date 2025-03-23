@@ -84,16 +84,6 @@ void Config::setDefaultValue(ConfigKeys key)
     }
 }
 
-inline void Config::setValue(const std::string& key, const std::string& value)
-{
-    this->setValue(Config::strToKey(key), value);
-}
-
-inline void Config::setDefaultValue(const std::string& key)
-{
-    this->setDefaultValue(Config::strToKey(key));
-}
-
 void Config::load()
 {
     if (!FS::exists(this->configFilePath))

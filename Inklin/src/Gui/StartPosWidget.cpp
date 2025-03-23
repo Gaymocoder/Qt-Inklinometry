@@ -52,6 +52,7 @@ StartPosWidget::StartPosWidget(Inklin::Core::Calculator* calculator, QWidget* pa
     
     this->applyStartPos = new QPushButton("Apply");
     this->applyStartPos->setFixedSize(65, 28);
+    this->applyStartPos->setEnabled(false);
     
     mainLayout->addWidget(posNames[X], 0, 0, 1, 1);
     mainLayout->addWidget(posNames[Y], 0, 1, 1, 1);
@@ -69,13 +70,26 @@ StartPosWidget::StartPosWidget(Inklin::Core::Calculator* calculator, QWidget* pa
     mainLayout->setAlignment(startPosValues[Z], Qt::AlignCenter | Qt::AlignTop);
     mainLayout->setAlignment(applyStartPos, Qt::AlignCenter);
     
+    connect(this->startPosValues[X], &QLineEdit::textEdited, this, &StartPosWidget::onStartPosChange);
+    connect(this->startPosValues[Y], &QLineEdit::textEdited, this, &StartPosWidget::onStartPosChange);
+    connect(this->startPosValues[Z], &QLineEdit::textEdited, this, &StartPosWidget::onStartPosChange);
+    connect(this->applyStartPos, &QPushButton::clicked, this, &StartPosWidget::onApplyButtonClick);
+    
     this->setLayout(mainLayout);
 }
 
 void StartPosWidget::onStartPosChange()
 {
+    if (!this->applyStartPos->isEnabled())
+        this->applyStartPos->setEnabled(true);
 }
 
 void StartPosWidget::onApplyButtonClick()
 {
+    QString qstrStartPosition = this->startPosValues[X]->text() + " " +
+                                this->startPosValues[Y]->text() + " " +
+                                this->startPosValues[Z]->text();
+    qstrStartPosition = qstrStartPosition.replace(',', '.');
+    this->calculator->setConfigValue("STARTPOS", qstrStartPosition.toStdString());
+    this->applyStartPos->setEnabled(false);
 }

@@ -35,10 +35,14 @@ namespace Inklin
                 Config(const FS::path& configPath);
                 
                 void setValue(ConfigKeys key, const std::string& value);
-                inline void setValue(const std::string& key, const std::string& value);
+                inline void setValue(const std::string& key, const std::string& value) {
+                    this->setValue(Config::strToKey(key), value);
+                }
                 
                 void setDefaultValue(ConfigKeys key);
-                inline void setDefaultValue(const std::string& key);
+                inline void setDefaultValue(const std::string& key) {
+                    this->setDefaultValue(Config::strToKey(key));
+                }
                 
                 virtual void save() const;
                 virtual void load();
