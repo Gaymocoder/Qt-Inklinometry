@@ -12,12 +12,14 @@ enum PositionSystemNames
     Z = 2,
 };
 
-StartPosWidget::StartPosWidget(Inklin::Core::Config* appConfig, QWidget* parent) : QWidget(parent)
+StartPosWidget::StartPosWidget(Inklin::Core::Calculator* calculator, QWidget* parent) : QWidget(parent)
 {
-    this->appConfig = appConfig;
-    double& StartX = appConfig->startPosition.Value1;
-    double& StartY = appConfig->startPosition.Value2;
-    double& StartZ = appConfig->startPosition.Value3;
+    this->calculator = calculator;
+    Inklin::Core::Config appConfig = calculator->getConfig();
+    
+    double& StartX = appConfig.startPosition.Value1;
+    double& StartY = appConfig.startPosition.Value2;
+    double& StartZ = appConfig.startPosition.Value3;
     
     QGridLayout* mainLayout = new QGridLayout(this);
     

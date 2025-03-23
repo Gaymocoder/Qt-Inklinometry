@@ -1,7 +1,7 @@
 #ifndef __INKLIN_START_POS_WIDGET_H__
 #define __INKLIN_START_POS_WIDGET_H__
 
-#include "Inklin/Core/Config.h"
+#include "Inklin/Core/Calculator.h"
 
 #include <QLineEdit>
 #include <QPushButton>
@@ -15,13 +15,13 @@ namespace Inklin
             Q_OBJECT;
             
             private:
-                Core::Config* appConfig;
+                Core::Calculator* calculator;
                 
                 QLineEdit* startPosValues[3];
                 QPushButton* applyStartPos;
                 
             public:
-                explicit StartPosWidget(Core::Config* appConfig, QWidget* parent = nullptr);
+                explicit StartPosWidget(Core::Calculator* calculator, QWidget* parent = nullptr);
                 
             signals:
                 void fireStartPosNew();
