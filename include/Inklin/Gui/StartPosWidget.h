@@ -10,7 +10,7 @@ namespace Inklin
 {
     namespace Gui
     {
-        class StartPosWidget : QWidget
+        class StartPosWidget : public QWidget
         {
             Q_OBJECT;
             

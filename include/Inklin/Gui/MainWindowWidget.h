@@ -18,7 +18,7 @@ namespace Inklin
             Q_OBJECT;
             
             private:
-                QLabel* chosenFile;
+                QLabel* chosenFileLabel;
                 
                 QPushButton* buttonFileSelect;
                 QPushButton* buttonCalculate;

@@ -2,6 +2,7 @@
 
 #include <QLabel>
 #include <QGridLayout>
+#include <QDoubleValidator>
 
 using namespace Inklin::Gui;
 
@@ -16,6 +17,7 @@ StartPosWidget::StartPosWidget(Inklin::Core::Calculator* calculator, QWidget* pa
 {
     this->calculator = calculator;
     Inklin::Core::Config appConfig = calculator->getConfig();
+    QDoubleValidator* valueValidator = new QDoubleValidator(0, 10000000000, -1, this);
     
     double& StartX = appConfig.startPosition.Value1;
     double& StartY = appConfig.startPosition.Value2;
@@ -24,9 +26,13 @@ StartPosWidget::StartPosWidget(Inklin::Core::Calculator* calculator, QWidget* pa
     QGridLayout* mainLayout = new QGridLayout(this);
     
     QLabel* posNames[3];
-    posNames[X] = new QLabel("X");
-    posNames[Y] = new QLabel("Y");
-    posNames[Z] = new QLabel("Z");
+    posNames[X] = new QLabel("X<sub>0</sub>");
+    posNames[Y] = new QLabel("Y<sub>0</sub>");
+    posNames[Z] = new QLabel("Z<sub>0</sub>");
+    
+    posNames[X]->setFont(QFont("Arial", 12));
+    posNames[Y]->setFont(QFont("Arial", 12));
+    posNames[Z]->setFont(QFont("Arial", 12));
     
     this->startPosValues[X] = new QLineEdit(QString(std::to_string(StartX).c_str()));
     this->startPosValues[Y] = new QLineEdit(QString(std::to_string(StartY).c_str()));
@@ -36,21 +42,32 @@ StartPosWidget::StartPosWidget(Inklin::Core::Calculator* calculator, QWidget* pa
     this->startPosValues[Y]->setMaxLength(12);
     this->startPosValues[Z]->setMaxLength(12);
     
-    this->startPosValues[X]->setInputMask("0.0");
-    this->startPosValues[Y]->setInputMask("0.0");
-    this->startPosValues[Z]->setInputMask("0.0");
+    this->startPosValues[X]->setAlignment(Qt::AlignCenter);
+    this->startPosValues[Y]->setAlignment(Qt::AlignCenter);
+    this->startPosValues[Z]->setAlignment(Qt::AlignCenter);
+    
+    this->startPosValues[X]->setValidator(valueValidator);
+    this->startPosValues[Y]->setValidator(valueValidator);
+    this->startPosValues[Z]->setValidator(valueValidator);
     
     this->applyStartPos = new QPushButton("Apply");
+    this->applyStartPos->setFixedSize(65, 28);
     
     mainLayout->addWidget(posNames[X], 0, 0, 1, 1);
     mainLayout->addWidget(posNames[Y], 0, 1, 1, 1);
     mainLayout->addWidget(posNames[Z], 0, 2, 1, 1);
-    
     mainLayout->addWidget(startPosValues[X], 1, 0, 1, 1);
-    mainLayout->addWidget(startPosValues[X], 1, 1, 1, 1);
-    mainLayout->addWidget(startPosValues[X], 1, 2, 1, 1);
-    
+    mainLayout->addWidget(startPosValues[Y], 1, 1, 1, 1);
+    mainLayout->addWidget(startPosValues[Z], 1, 2, 1, 1);
     mainLayout->addWidget(applyStartPos, 2, 1, 1, 1);
+    
+    mainLayout->setAlignment(posNames[X], Qt::AlignCenter | Qt::AlignBottom);
+    mainLayout->setAlignment(posNames[Y], Qt::AlignCenter | Qt::AlignBottom);
+    mainLayout->setAlignment(posNames[Z], Qt::AlignCenter | Qt::AlignBottom);
+    mainLayout->setAlignment(startPosValues[X], Qt::AlignCenter | Qt::AlignTop);
+    mainLayout->setAlignment(startPosValues[Y], Qt::AlignCenter | Qt::AlignTop);
+    mainLayout->setAlignment(startPosValues[Z], Qt::AlignCenter | Qt::AlignTop);
+    mainLayout->setAlignment(applyStartPos, Qt::AlignCenter);
     
     this->setLayout(mainLayout);
 }

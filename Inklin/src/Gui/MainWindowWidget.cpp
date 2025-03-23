@@ -1,5 +1,6 @@
 #include "Inklin/Core/Calculator.h"
 
+#include "Inklin/Gui/StartPosWidget.h"
 #include "Inklin/Gui/MainWindowWidget.h"
 #include "Inklin/Gui/TypeButtonsGroupWidget.h"
 
@@ -21,30 +22,33 @@ MainWindowWidget::MainWindowWidget(QWidget* parent) : QWidget(parent)
     
     QWidget* widgetFileChoose = new QWidget();
     TypeButtonsGroup* widgetTypeChoose = new TypeButtonsGroup();
+    StartPosWidget* widgetStartPosEdit = new StartPosWidget(theCalculator);
     
-    this->chosenFile = new QLabel("Choose a file with the source data", this);
+    this->chosenFileLabel = new QLabel("Choose a file with the source data", this);
     this->buttonFileSelect = new QPushButton("Select file", this);
     this->buttonCalculate = new QPushButton("Caclulate", this);
     
     QLabel* title = new QLabel("INKLINOMETRY", this);
     
     title->setFont(QFont("Arial", 40, 20));
-    chosenFile->setAlignment(Qt::AlignCenter);
+    chosenFileLabel->setAlignment(Qt::AlignCenter);
     buttonCalculate->setEnabled(false);
     
     buttonCalculate->setFixedSize(100, 30);
     buttonFileSelect->setFixedSize(100, 30);
     
     layoutFileChoose->addWidget(this->buttonFileSelect);
-    layoutFileChoose->addWidget(this->chosenFile);
-    layoutFileChoose->setAlignment(this->chosenFile, Qt::AlignCenter | Qt::AlignTop);
+    layoutFileChoose->addWidget(this->chosenFileLabel);
+    layoutFileChoose->setAlignment(this->chosenFileLabel,  Qt::AlignCenter | Qt::AlignTop);
     layoutFileChoose->setAlignment(this->buttonFileSelect, Qt::AlignCenter | Qt::AlignBottom);
     widgetFileChoose->setLayout(layoutFileChoose);
 
-    mainLayout->addWidget(widgetTypeChoose, 7, 0, 1, 6);
-    mainLayout->addWidget(widgetFileChoose, 4, 0, 1, 6);
-    mainLayout->addWidget(title,            0, 0, 2, 6, Qt::AlignCenter);
-    mainLayout->addWidget(buttonCalculate, 10, 1, 1, 4, Qt::AlignCenter);
+    mainLayout->addWidget(title,              0, 0, 3, 12, Qt::AlignCenter);
+    mainLayout->addWidget(widgetStartPosEdit, 3, 0, 2, 12);
+    mainLayout->addWidget(new QWidget(),      6, 0, 1, 12);
+    mainLayout->addWidget(widgetFileChoose,  10, 0, 2, 12);
+    mainLayout->addWidget(widgetTypeChoose,  16, 0, 2, 12);
+    mainLayout->addWidget(buttonCalculate,   20, 2, 2,  8, Qt::AlignCenter);
     
     connect(this, &MainWindowWidget::fireNewFileSelected, theCalculator, &Inklin::Core::Calculator::onFileChange);
     connect(buttonCalculate,  &QPushButton::clicked, theCalculator, &Inklin::Core::Calculator::onCalculateRequest);
@@ -71,7 +75,7 @@ void MainWindowWidget::onFileSelectButtonClick()
         
         if (fileSelected.length() > 50)
             fileSelected.replace(25, fileSelected.length() - 50, "...");
-        this->chosenFile->setText((std::string("Selected file:\n") + fileSelected).c_str());
+        this->chosenFileLabel->setText((std::string("Selected file:\n") + fileSelected).c_str());
     }
 }
 
@@ -83,6 +87,6 @@ void MainWindowWidget::onFileTypeSelected()
 
 void MainWindowWidget::onCalculationFinished()
 {
-    std::cout << "End of calculating of the " << this->chosenFile->text().toStdString() << std::endl;
+    std::cout << "End of calculating of the " << this->chosenFileLabel->text().toStdString() << std::endl;
     QMessageBox::information(this, "Calculations finished", "Calculations are finished! All data was printed to STDOUT");
 }
