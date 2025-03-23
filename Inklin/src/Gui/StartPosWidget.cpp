@@ -15,9 +15,9 @@ enum PositionSystemNames
 StartPosWidget::StartPosWidget(Inklin::Core::Config* appConfig, QWidget* parent) : QWidget(parent)
 {
     this->appConfig = appConfig;
-    double& StartX = appConfig->Value1;
-    double& StartY = appConfig->Value2;
-    double& StartZ = appConfig->Value3;
+    double& StartX = appConfig->startPosition.Value1;
+    double& StartY = appConfig->startPosition.Value2;
+    double& StartZ = appConfig->startPosition.Value3;
     
     QGridLayout* mainLayout = new QGridLayout(this);
     
@@ -26,9 +26,9 @@ StartPosWidget::StartPosWidget(Inklin::Core::Config* appConfig, QWidget* parent)
     posNames[Y] = new QLabel("Y");
     posNames[Z] = new QLabel("Z");
     
-    this->startPosValues[X] = new QLineEdit(std::to_string(StartX));
-    this->startPosValues[Y] = new QLineEdit(std::to_string(StartY));
-    this->startPosValues[Z] = new QLineEdit(std::to_string(StartZ));
+    this->startPosValues[X] = new QLineEdit(QString(std::to_string(StartX).c_str()));
+    this->startPosValues[Y] = new QLineEdit(QString(std::to_string(StartY).c_str()));
+    this->startPosValues[Z] = new QLineEdit(QString(std::to_string(StartZ).c_str()));
     
     this->startPosValues[X]->setMaxLength(12);
     this->startPosValues[Y]->setMaxLength(12);
@@ -51,4 +51,12 @@ StartPosWidget::StartPosWidget(Inklin::Core::Config* appConfig, QWidget* parent)
     mainLayout->addWidget(applyStartPos, 2, 1, 1, 1);
     
     this->setLayout(mainLayout);
+}
+
+void StartPosWidget::onStartPosChange()
+{
+}
+
+void StartPosWidget::onApplyButtonClick()
+{
 }

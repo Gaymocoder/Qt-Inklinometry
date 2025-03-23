@@ -1,7 +1,7 @@
 #ifndef __INKLIN_START_POS_WIDGET_H__
 #define __INKLIN_START_POS_WIDGET_H__
 
-#include "Inklin/SimpleTypes.h"
+#include "Inklin/Core/Config.h"
 
 #include <QLineEdit>
 #include <QPushButton>
