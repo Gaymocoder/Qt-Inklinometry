@@ -48,6 +48,8 @@ namespace Inklin
                 Config getConfig() const;
                 FS::path getFilePath() const;
                 SourceDataType getFileType() const;
+                
+                inline void setConfigValue(const std::string& key, const std::string& value);
             
             signals:
                 void fireTypeAutoIdentified(SourceDataType newFileType) const;

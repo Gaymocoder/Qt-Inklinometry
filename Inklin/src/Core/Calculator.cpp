@@ -86,6 +86,11 @@ void Calculator::onFileTypeChange(Inklin::SourceDataType newFileType)
     this->fileType = newFileType;
 }
 
+Config Calculator::getConfig() const
+{
+    return *(this->appConfig);
+}
+
 FS::path Calculator::getFilePath() const
 {
     return this->file;
@@ -96,9 +101,9 @@ Inklin::SourceDataType Calculator::getFileType() const
     return this->fileType;
 }
 
-Config Calculator::getConfig() const
+void Calculator::setConfigValue(const std::string& key, const std::string& value)
 {
-    return *(this->appConfig);
+    this->appConfig->setValue(key, value);
 }
 
 void Calculator::onCalculateRequest() const

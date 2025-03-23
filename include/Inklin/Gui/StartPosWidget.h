@@ -21,7 +21,7 @@ namespace Inklin
                 QPushButton* applyStartPos;
                 
             public:
-                explicit StartPosWidget(QWidget* parent = nullptr);
+                explicit StartPosWidget(Core::Config* appConfig, QWidget* parent = nullptr);
                 
             signals:
                 void fireStartPosNew();
