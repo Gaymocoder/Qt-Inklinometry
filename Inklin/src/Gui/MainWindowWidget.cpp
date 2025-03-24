@@ -17,13 +17,13 @@ MainWindowWidget::MainWindowWidget(QWidget* parent) : QWidget(parent)
 {
     Inklin::Core::Calculator* theCalculator = new Inklin::Core::Calculator("");
     
-    QGridLayout* mainLayout = new QGridLayout(this);
-    QGridLayout* layoutFileChoose = new QGridLayout(this);
-    
     QWidget* widgetFileChoose = new QWidget();
-    TypeButtonsGroup* widgetTypeChoose = new TypeButtonsGroup();
     StartPosWidget* widgetStartPosEdit = new StartPosWidget(theCalculator);
     
+    QGridLayout* mainLayout = new QGridLayout(this);
+    QGridLayout* layoutFileChoose = new QGridLayout(widgetFileChoose);
+    
+    this->widgetTypeChoose = new TypeButtonsGroup();
     this->chosenFileLabel = new QLabel("Choose a file with the source data", this);
     this->buttonFileSelect = new QPushButton("Select file", this);
     this->buttonCalculate = new QPushButton("Caclulate", this);
@@ -50,13 +50,14 @@ MainWindowWidget::MainWindowWidget(QWidget* parent) : QWidget(parent)
     mainLayout->addWidget(widgetTypeChoose,  16, 0, 2, 12);
     mainLayout->addWidget(buttonCalculate,   20, 2, 2,  8, Qt::AlignCenter);
     
-    connect(this, &MainWindowWidget::fireNewFileSelected, theCalculator, &Inklin::Core::Calculator::onFileChange);
-    connect(buttonCalculate,  &QPushButton::clicked, theCalculator, &Inklin::Core::Calculator::onCalculateRequest);
-    connect(buttonFileSelect, &QPushButton::clicked, this, &MainWindowWidget::onFileSelectButtonClick);
-    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged, theCalculator, &Inklin::Core::Calculator::onFileTypeChange);
-    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged, this, &MainWindowWidget::onFileTypeSelected);
-    connect(theCalculator, &Inklin::Core::Calculator::fireTypeAutoIdentified, widgetTypeChoose, &TypeButtonsGroup::onAutoTypeIdentified);
-    connect(theCalculator, &Inklin::Core::Calculator::fireCalculationFinished, this, &MainWindowWidget::onCalculationFinished);
+    connect(this,             &MainWindowWidget::fireNewFileSelected,             theCalculator,    &Inklin::Core::Calculator::onFileChange);
+    connect(this,             &MainWindowWidget::fireNewFileSelected,             this,             &MainWindowWidget::calculateButtonEnableRequest);
+    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged,             theCalculator,    &Inklin::Core::Calculator::onFileTypeChange);
+    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged,             this,             &MainWindowWidget::calculateButtonEnableRequest);
+    connect(theCalculator,    &Inklin::Core::Calculator::fireTypeAutoIdentified,  widgetTypeChoose, &TypeButtonsGroup::onAutoTypeIdentified);
+    connect(theCalculator,    &Inklin::Core::Calculator::fireCalculationFinished, this,             &MainWindowWidget::onCalculationFinished);
+    connect(buttonCalculate,  &QPushButton::clicked,                              theCalculator,    &Inklin::Core::Calculator::onCalculateRequest);
+    connect(buttonFileSelect, &QPushButton::clicked,                              this,             &MainWindowWidget::onFileSelectButtonClick);
     
     this->setLayout(mainLayout);
 }
@@ -71,17 +72,20 @@ void MainWindowWidget::onFileSelectButtonClick()
     if(dialog.exec())
     {
         std::string fileSelected = dialog.selectedFiles().first().toStdString();
-        emit fireNewFileSelected(fileSelected);
-        
         if (fileSelected.length() > 50)
             fileSelected.replace(25, fileSelected.length() - 50, "...");
         this->chosenFileLabel->setText((std::string("Selected file:\n") + fileSelected).c_str());
+        
+        emit fireNewFileSelected(fileSelected);
     }
 }
 
-void MainWindowWidget::onFileTypeSelected()
+void MainWindowWidget::calculateButtonEnableRequest()
 {
-    if (!this->buttonCalculate->isEnabled())
+    bool fileIsSelected = this->chosenFileLabel->text() != "Choose a file with the source data";
+    bool typeIsSelected = this->widgetTypeChoose->isTypeSelected();
+    
+    if (fileIsSelected && typeIsSelected)
         this->buttonCalculate->setEnabled(true);
 }
 

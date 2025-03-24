@@ -15,10 +15,10 @@ namespace Inklin
 {
     enum SourceDataType
     {
-        ABSOLUTE = 0,
-        DELTA    = 1,
-        AZIMUTH  = 2,
-        NONE     = 3,
+        NONE     = -1,
+        ABSOLUTE =  0,
+        DELTA    =  1,
+        AZIMUTH  =  2,
     };
         
     namespace Core

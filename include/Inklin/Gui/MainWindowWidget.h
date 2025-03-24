@@ -1,10 +1,10 @@
 #ifndef __INKLIN_MAIN_WINDOW_WIDGET_H__
 #define __INKLIN_MAIN_WINDOW_WIDGET_H__
 
+#include "Inklin/Gui/TypeButtonsGroupWidget.h"
+
 #include <filesystem>
 
-#include <QLabel>
-#include <QWidget>
 #include <QPushButton>
 
 namespace FS = std::filesystem;
@@ -23,6 +23,8 @@ namespace Inklin
                 QPushButton* buttonFileSelect;
                 QPushButton* buttonCalculate;
                 
+                TypeButtonsGroup* widgetTypeChoose;
+                
             public:
                 explicit MainWindowWidget(QWidget* parent = nullptr);
                 
@@ -30,9 +32,9 @@ namespace Inklin
                 void fireNewFileSelected(const FS::path& newFilePath);
                 
             public slots:
+                virtual void calculateButtonEnableRequest();
                 virtual void onFileSelectButtonClick();
                 virtual void onCalculationFinished();
-                virtual void onFileTypeSelected();
         };
     }
 }

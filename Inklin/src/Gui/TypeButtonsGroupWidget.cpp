@@ -44,6 +44,11 @@ TypeButtonsGroup::TypeButtonsGroup(QWidget* parent) : QWidget(parent)
     this->setLayout(mainLayout);
 }
 
+bool TypeButtonsGroup::isTypeSelected()
+{
+    return (this->buttonTypeGroup->checkedButton() != nullptr);
+}
+
 void TypeButtonsGroup::onButtonToggled(QAbstractButton* button, bool checked)
 {
     if (!checked) return;
@@ -55,6 +60,12 @@ void TypeButtonsGroup::onAutoTypeIdentified(Inklin::SourceDataType newFileType)
 {
     if (newFileType == Inklin::NONE)
     {
+        if (this->isTypeSelected())
+        {
+            emit fireFileTypeChanged((Inklin::SourceDataType) this->buttonTypeGroup->checkedId());
+            return;
+        }
+        
         this->autoDefinedType->setText("Cannot automatically identify file type");
         return;
     }

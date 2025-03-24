@@ -20,6 +20,7 @@ namespace Inklin
             
             public:
                 explicit TypeButtonsGroup(QWidget* parent = nullptr);
+                bool isTypeSelected();
                 
             signals:
                 void fireFileTypeChanged(SourceDataType newFileType);
