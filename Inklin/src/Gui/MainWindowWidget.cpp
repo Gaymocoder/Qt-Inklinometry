@@ -17,13 +17,13 @@ MainWindowWidget::MainWindowWidget(QWidget* parent) : QWidget(parent)
 {
     Inklin::Core::Calculator* theCalculator = new Inklin::Core::Calculator("");
     
-    QWidget* widgetFileChoose = new QWidget();
-    StartPosWidget* widgetStartPosEdit = new StartPosWidget(theCalculator);
+    QWidget* widgetFileChoose = new QWidget(this);
+    StartPosWidget* widgetStartPosEdit = new StartPosWidget(theCalculator, this);
     
     QGridLayout* mainLayout = new QGridLayout(this);
     QGridLayout* layoutFileChoose = new QGridLayout(widgetFileChoose);
     
-    this->widgetTypeChoose = new TypeButtonsGroup();
+    this->widgetTypeChoose = new TypeButtonsGroup(this);
     this->chosenFileLabel = new QLabel("Choose a file with the source data", this);
     this->buttonFileSelect = new QPushButton("Select file", this);
     this->buttonCalculate = new QPushButton("Caclulate", this);
@@ -45,19 +45,22 @@ MainWindowWidget::MainWindowWidget(QWidget* parent) : QWidget(parent)
 
     mainLayout->addWidget(title,              0, 0, 3, 12, Qt::AlignCenter);
     mainLayout->addWidget(widgetStartPosEdit, 3, 0, 2, 12);
-    mainLayout->addWidget(new QWidget(),      6, 0, 1, 12);
+    mainLayout->addWidget(new QWidget(this),  6, 0, 1, 12);
     mainLayout->addWidget(widgetFileChoose,  10, 0, 2, 12);
     mainLayout->addWidget(widgetTypeChoose,  16, 0, 2, 12);
     mainLayout->addWidget(buttonCalculate,   20, 2, 2,  8, Qt::AlignCenter);
     
-    connect(this,             &MainWindowWidget::fireNewFileSelected,             theCalculator,    &Inklin::Core::Calculator::onFileChange);
-    connect(this,             &MainWindowWidget::fireNewFileSelected,             this,             &MainWindowWidget::calculateButtonEnableRequest);
-    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged,             theCalculator,    &Inklin::Core::Calculator::onFileTypeChange);
-    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged,             this,             &MainWindowWidget::calculateButtonEnableRequest);
-    connect(theCalculator,    &Inklin::Core::Calculator::fireTypeAutoIdentified,  widgetTypeChoose, &TypeButtonsGroup::onAutoTypeIdentified);
-    connect(theCalculator,    &Inklin::Core::Calculator::fireCalculationFinished, this,             &MainWindowWidget::onCalculationFinished);
-    connect(buttonCalculate,  &QPushButton::clicked,                              theCalculator,    &Inklin::Core::Calculator::onCalculateRequest);
-    connect(buttonFileSelect, &QPushButton::clicked,                              this,             &MainWindowWidget::onFileSelectButtonClick);
+    connect(this, &MainWindowWidget::fireNewFileSelected, theCalculator, &Inklin::Core::Calculator::onFileChange);
+    connect(this, &MainWindowWidget::fireNewFileSelected, this, &MainWindowWidget::calculateButtonEnableRequest);
+    
+    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged, theCalculator, &Inklin::Core::Calculator::onFileTypeChange);
+    connect(widgetTypeChoose, &TypeButtonsGroup::fireFileTypeChanged, this, &MainWindowWidget::calculateButtonEnableRequest);
+    
+    connect(theCalculator, &Inklin::Core::Calculator::fireTypeAutoIdentified, widgetTypeChoose, &TypeButtonsGroup::onAutoTypeIdentified);
+    connect(theCalculator, &Inklin::Core::Calculator::fireCalculationFinished, this, &MainWindowWidget::onCalculationFinished);
+    
+    connect(buttonCalculate, &QPushButton::clicked, theCalculator, &Inklin::Core::Calculator::onCalculateRequest);
+    connect(buttonFileSelect, &QPushButton::clicked, this, &MainWindowWidget::onFileSelectButtonClick);
     
     this->setLayout(mainLayout);
 }

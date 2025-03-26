@@ -7,7 +7,7 @@ using namespace Inklin::Gui;
 
 TypeButtonsGroup::TypeButtonsGroup(QWidget* parent) : QWidget(parent)
 {
-    QGridLayout* mainLayout = new QGridLayout();
+    QGridLayout* mainLayout = new QGridLayout(this);
  
     this->autoDefinedType = new QLabel("", this);
     

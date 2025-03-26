@@ -26,17 +26,17 @@ StartPosWidget::StartPosWidget(Inklin::Core::Calculator* calculator, QWidget* pa
     QGridLayout* mainLayout = new QGridLayout(this);
     
     QLabel* posNames[3];
-    posNames[X] = new QLabel("X<sub>0</sub>");
-    posNames[Y] = new QLabel("Y<sub>0</sub>");
-    posNames[Z] = new QLabel("Z<sub>0</sub>");
+    posNames[X] = new QLabel("X<sub>0</sub>", this);
+    posNames[Y] = new QLabel("Y<sub>0</sub>", this);
+    posNames[Z] = new QLabel("Z<sub>0</sub>", this);
     
     posNames[X]->setFont(QFont("Arial", 12));
     posNames[Y]->setFont(QFont("Arial", 12));
     posNames[Z]->setFont(QFont("Arial", 12));
     
-    this->startPosValues[X] = new QLineEdit(QString(std::to_string(StartX).c_str()));
-    this->startPosValues[Y] = new QLineEdit(QString(std::to_string(StartY).c_str()));
-    this->startPosValues[Z] = new QLineEdit(QString(std::to_string(StartZ).c_str()));
+    this->startPosValues[X] = new QLineEdit(QString(std::to_string(StartX).c_str()), this);
+    this->startPosValues[Y] = new QLineEdit(QString(std::to_string(StartY).c_str()), this);
+    this->startPosValues[Z] = new QLineEdit(QString(std::to_string(StartZ).c_str()), this);
     
     this->startPosValues[X]->setMaxLength(12);
     this->startPosValues[Y]->setMaxLength(12);
@@ -50,7 +50,7 @@ StartPosWidget::StartPosWidget(Inklin::Core::Calculator* calculator, QWidget* pa
     this->startPosValues[Y]->setValidator(valueValidator);
     this->startPosValues[Z]->setValidator(valueValidator);
     
-    this->applyStartPos = new QPushButton("Apply");
+    this->applyStartPos = new QPushButton("Apply", this);
     this->applyStartPos->setFixedSize(65, 28);
     this->applyStartPos->setEnabled(false);
     
